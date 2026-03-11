@@ -1,0 +1,12 @@
+<h1>Film List</h1>
+
+<ul>
+    {% for film in films %}
+        <li>
+            <a href="{% url 'film_detail' film.id %}">{{ film.title }}</a>
+            - {{ film.genre.name }} - {{ film.release_year }}
+        </li>
+    {% empty %}
+        <li>No films available.</li>
+    {% endfor %}
+</ul>
