@@ -13,7 +13,7 @@ class Film(models.Model):
     genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
     description = models.TextField()
     poster_url = models.URLField()
-    release_year = models.URLField()
+    release_year = models.IntegerField()
 
     def __str__(self):
         return self.title
