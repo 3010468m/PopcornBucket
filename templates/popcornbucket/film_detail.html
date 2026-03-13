@@ -4,8 +4,11 @@
 <p><strong>Release year:</strong> {{ film.release_year }}</p>
 <p><strong>Description:</strong> {{ film.description }}</p>
 
-{% if film.poster_url %}
-    <img src="{{ film.url }}" alt="{{ film.title }}" width="200">
+{% if film.poster %}
+    <img src="{{ film.poster.url }}" alt="{{ film.title }}" width="200">
+    <p>{{ film.poster.url }}</p>
+{% else %}
+    <p>No poster found for this film.</p>
 {% endif %}
 
 <h2>Reviews</h2>
