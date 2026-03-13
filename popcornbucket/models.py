@@ -18,7 +18,7 @@ class Film(models.Model):
     description = models.TextField()
     poster_url = models.URLField()
     release_year = models.IntegerField()
-    film_id = models.IntegerField()
+    film_id = models.AutoField(primary_key=True)
 
     def __str__(self):
         return self.title
