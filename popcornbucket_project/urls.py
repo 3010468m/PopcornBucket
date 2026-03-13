@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from popcornbucket import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('films/', include('movies.urls')),
+    path('films/', include('popcornbucket.urls')),
+    path('<int:film_id>/', views.film_detail, name='film_detail'),
 ]
