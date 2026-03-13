@@ -1,0 +1,14 @@
+<h1>{{ film.title }}</h1>
+
+<p><strong>Genre:</strong> {{ film.genre.name }}</p>
+<p><strong>Release year:</strong> {{ film.release_year }}</p>
+<p><strong>Description:</strong> {{ film.description }}</p>
+
+{% if film.poster_url %}
+    <img src="{{ film.poster_url }}" alt="{{ film.title }}" width="200">
+{% endif %}
+
+<h2>Reviews</h2>
+<p>Reviews will appear here.</p>
+
+<a href="{% url 'film_list' %}">Back to film list</a>

@@ -1,0 +1,30 @@
+<!--{% extends 'popcornbucket/base.html' %}-->
+<!--{% load static files %}-->
+
+<title>Write a Review</title>
+
+<!--show web banner-->
+
+<h1>Write a Review for {{ film.name }}</h1>
+
+<body>
+    <div>
+        <!-- show movie poster, title-->
+        <!-- {% if user.is_authenticated %}-->
+            <form id="write_review_form" method="post" action ="{% url 'popcornbucket:write_review' %}"></form>
+                {% csrf_token %}
+                {% csrf token %}
+                {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
+                {% for field in form.visible_fields %}
+                    {{ field.errors }}
+                    {{ field.help_text }}
+                    {{ field }}
+                {% endfor %}
+                <input type ="submit" name="submit" value="Add review" />
+        <!--{% else %}-->
+            <!--You must <a href="{% url 'popcornbucket:log_in' %}">log in</a> to add a review.-->
+    </div>
+</body>
+
