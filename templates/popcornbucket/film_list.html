@@ -19,7 +19,7 @@
 <ul>
     {% for film in films %}
         <li>
-            <a href="{% url 'film_detail' film.id %}">{{ film.title }}</a>
+            <a href="{% url 'film_detail' film.film_id %}">{{ film.title }}</a>
             - {{ film.genre.name }} - {{ film.release_year }}
         </li>
     {% empty %}
