@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
@@ -7,11 +6,6 @@ from .models import Film, Genre, Review
 from .forms import ReviewForm
 
 
-=======
-from django.shortcuts import render
-from django.shortcuts import render, get_object_or_404
-from .models import Film, Genre
->>>>>>> user/simi
 # Create your views here.
 
 def film_list(request):
@@ -38,7 +32,6 @@ def film_list(request):
 
 def film_detail(request, film_id):
     film = get_object_or_404(Film, film_id=film_id)
-<<<<<<< HEAD
     return render(request, 'popcornbucket/film_detail.html', {'film': film})
 
 #@login_required
@@ -83,6 +76,3 @@ def show_reviews(request, film): # incorporated into show_movie
     
     return render(request, 'popcornbucket.html', context=context_dict)
 
-=======
-    return render(request, 'popcornbucket/film_detail.html', {'film': film})
->>>>>>> user/simi
