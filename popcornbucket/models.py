@@ -16,7 +16,7 @@ class Film(models.Model):
     title = models.CharField(max_length=255)
     genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
     description = models.TextField()
-    poster_url = models.URLField()
+    poster = models.ImageField(upload_to='film_posters/', blank=True)
     release_year = models.IntegerField()
     film_id = models.AutoField(primary_key=True)
 
