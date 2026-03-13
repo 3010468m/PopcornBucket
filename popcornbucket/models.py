@@ -18,7 +18,7 @@ class Film(models.Model):
     genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
     description = models.TextField()
     poster = models.ImageField(upload_to='film_posters/', blank=True, null=True)
-    release_year = models.IntegerField()
+    release_year = models.IntegerField(null=True, blank=True)
     film_id = models.AutoField(primary_key=True)
 
     def __str__(self):
