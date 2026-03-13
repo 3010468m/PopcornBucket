@@ -19,7 +19,11 @@
 <ul>
     {% for film in films %}
         <li>
+<<<<<<< HEAD
             <a href="{% url 'film_detail' film.id %}">{{ film.title }}</a>
+=======
+            <a href="{% url 'film_detail' film.film_id %}">{{ film.title }}</a>
+>>>>>>> user/simi
             - {{ film.genre.name }} - {{ film.release_year }}
         </li>
     {% empty %}
