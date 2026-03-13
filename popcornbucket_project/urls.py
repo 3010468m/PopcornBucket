@@ -1,4 +1,4 @@
-"""popconrbucket URL Configuration
+"""popcornbucket URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.2/topics/http/urls/
@@ -14,8 +14,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from popcornbucket import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('films/', include('popcornbucket.urls')),
+    path('<int:film_id>/', views.film_detail, name='film_detail'),
 ]

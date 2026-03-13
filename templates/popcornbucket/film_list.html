@@ -1,0 +1,28 @@
+<h1>Film List</h1>
+
+<h2>Sort Films</h2>
+<a href="{% url 'film_list' %}?sort=newest">Newest</a>
+<a href="{% url 'film_list' %}?sort=oldest">Oldest</a>
+<a href="{% url 'film_list' %}">Clear Sorting</a>
+
+<h2>Filter by Genre</h2>
+<ul>
+    <li><a href="{% url 'film_list' %}">All Genres</a></li>
+    {% for genre in genres %}
+        <li>
+            <a href="{% url 'film_list' %}?genre={{ genre.id }}">{{ genre.name }}</a>
+        </li>
+    {% endfor %}
+</ul>
+
+<h2>Films</h2>
+<ul>
+    {% for film in films %}
+        <li>
+            <a href="{% url 'film_detail' film.id %}">{{ film.title }}</a>
+            - {{ film.genre.name }} - {{ film.release_year }}
+        </li>
+    {% empty %}
+        <li>No films available.</li>
+    {% endfor %}
+</ul>
