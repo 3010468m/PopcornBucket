@@ -13,6 +13,7 @@ class Genre(models.Model):
 
 
 class Film(models.Model):
+    tmdb_id = models.IntegerField(unique=True, null=True, blank=True)
     title = models.CharField(max_length=255)
     genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
     description = models.TextField()
