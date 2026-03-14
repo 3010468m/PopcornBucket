@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Popcorn Bucket</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        header { background: #211f1f; color: white; padding: 15px; }
+        nav a { color: white; margin-right: 15px; text-decoration: none; }
+        nav a:hover { text-decoration: underline; }
+        main { padding: 20px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1><a href="{% url 'homepage' %}" style="color: white; text-decoration: none;">
+        Popcorn Bucket</a>
+    </h1>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/films/">Films</a>
+
+        {% if user.is_authenticated %}
+            <a href="/logout/">Logout</a>
+        {% else %}
+            <a href="/signup/">Sign up</a>
+            <a href="/login/">Login</a>
+        {% endif %}
+    </nav>
+</header>
+
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+
+</body>
+</html>

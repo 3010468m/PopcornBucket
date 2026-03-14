@@ -1,0 +1,22 @@
+{% extends "popcornbucket/base.html" %}
+
+{% block content %}
+
+<h1>{{ film.title }}</h1>
+
+<p><strong>Genre:</strong> {{ film.genre.name }}</p>
+<p><strong>Release year:</strong> {{ film.release_year }}</p>
+<p><strong>Description:</strong> {{ film.description }}</p>
+
+{% if film.poster %}
+    <img src="{{ film.poster.url }}" alt="{{ film.title }}" width="200">
+{% else %}
+    <p>No poster found for this film.</p>
+{% endif %}
+
+<h2>Reviews</h2>
+<p>Reviews will appear here.</p>
+
+<a href="{% url 'film_list' %}">Back to film list</a>
+
+{% endblock %}
