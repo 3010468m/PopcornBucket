@@ -1,12 +1,17 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login, logout
 
 from .models import Film, Genre, Review
 from .forms import ReviewForm
 
 
 # Create your views here.
+# This view is responsible for creating a base/main page
+def homepage(request):
+    return render(request, "popcornbucket/homepage.html")
 
 def film_list(request):
     films = Film.objects.all()
@@ -75,4 +80,33 @@ def show_reviews(request, film): # incorporated into show_movie
         context_dict['film'] = None
     
     return render(request, 'popcornbucket.html', context=context_dict)
+
+# Sign up
+def signup_view(request):
+    if request.method == 'POST':
+        form= UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request,user)
+            return redirect("homepage")
+    else:
+        form= UserCreationForm()
+    return render(request,"popcornbucket/signup.html", {"form": form})
+
+
+# Login/Logout functions
+def login_view(request):
+    if request.method == 'POST':
+        username=request.POST.get("username")
+        password = request.POST.get("password")
+        user=authenticate(request,username=username, password=password)
+        if user:
+            login(request,user)
+            return redirect("homepage")
+        return render(request, "popcornbucket/login.html", {"error": "Invalid username or password"})
+    return render(request, "popcornbucket/login.html")
+
+def logout_view(request):
+    logout(request)
+    return redirect("homepage")
 

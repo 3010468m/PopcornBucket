@@ -10,7 +10,19 @@
     <p>No poster found for this film.</p>
 {% endif %}
 
-<h2>Reviews</h2>
-<p>Reviews will appear here.</p>
+<h2>User Reviews</h2>
+<a href="{% url 'write_review' film.film_id%}">Write a Review</a>
+{% if reviews %}
+    <ul>
+        {% for review in reviews %}
+        <p>
+            <strong>{{ review.user }}</strong><br>
+            Rating: {{ review.rating }}<br>
+            {{ review.review_text }}<br>
+        </p>
+    </ul>
+{% else %}
+    <strong>There are no reviews yet.</strong>
+{% end if %}
 
 <a href="{% url 'film_list' %}">Back to film list</a>
