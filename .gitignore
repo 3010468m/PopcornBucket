@@ -1,0 +1,20 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# SQLite database
+db.sqlite3
+
+# Virtual environments
+venv/
+env/
+
+# Media files (optional)
+media/
+
+# Django logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
