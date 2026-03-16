@@ -1,3 +1,7 @@
+{% extends "popcornbucket/base.html" %}
+
+{% block content %}
+
 <h1>Film List</h1>
 
 <h2>Sort Films</h2>
@@ -20,9 +24,11 @@
     {% for film in films %}
         <li>
             <a href="{% url 'film_detail' film.id %}">{{ film.title }}</a>
-            - {{ film.genre.name }} - {{ film.release_year }}
+            – {{ film.genre.name }} – {{ film.release_year }}
         </li>
     {% empty %}
         <li>No films available.</li>
     {% endfor %}
 </ul>
+
+{% endblock %}

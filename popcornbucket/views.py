@@ -1,7 +1,17 @@
-from django.shortcuts import render
-from django.shortcuts import render, get_object_or_404
-from .models import Film, Genre
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login, logout
+
+from .models import Film, Genre, Review
+from .forms import ReviewForm
+
+
 # Create your views here.
+# This view is responsible for creating a base/main page
+def homepage(request):
+    return render(request, "popcornbucket/homepage.html")
 
 def film_list(request):
     films = Film.objects.all()
@@ -25,6 +35,76 @@ def film_list(request):
     return render(request, 'popcornbucket/film_list.html', context)
 
 
-def film_detail(request, film_id):
-    film = get_object_or_404(Film, id=film_id)
-    return render(request, 'popcornbucket/film_detail.html', {'film': film})
+def film_detail(request, id):
+    film = get_object_or_404(Film, id=id)
+    context_dict = {}
+
+    try:
+        # retrieve all associated reviews
+        reviews = Review.objects.filter(film=film)
+        context_dict['reviews'] = reviews
+        context_dict['film'] = film
+    except Film.DoesNotExist:
+        context_dict['reviews'] = None
+        context_dict['film'] = None
+    
+    return render(request, 'popcornbucket/film_detail.html', context=context_dict)
+    
+
+#@login_required
+def write_review(request, film_id):
+
+    # check movie and user are valid (since they're foreign keys)
+    film = Film.objects.get(id=film_id)
+    user = request.user
+    if film is None or user is None :
+        return redirect('popcornbucket/homepage.html')
+
+    form = ReviewForm(request.POST)
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.film = film
+            review.user = user
+            review.save()
+            return redirect('film_detail', film_id)
+                
+        else:
+            form = ReviewForm()
+            print(form.errors)       
+
+
+    context_dict = {'form': form, 'film': film}
+    return render(request, 'popcornbucket/write_review.html', context=context_dict)
+
+# Sign up
+def signup_view(request):
+    if request.method == 'POST':
+        form= UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request,user)
+            return redirect("homepage")
+    else:
+        form= UserCreationForm()
+    return render(request,"popcornbucket/signup.html", {"form": form})
+
+
+# Login/Logout functions
+def login_view(request):
+    if request.method == 'POST':
+        username=request.POST.get("username")
+        password = request.POST.get("password")
+        user=authenticate(request,username=username, password=password)
+        if user:
+            login(request,user)
+            return redirect("homepage")
+        return render(request, "popcornbucket/login.html", {"error": "Invalid username or password"})
+    return render(request, "popcornbucket/login.html")
+
+def logout_view(request):
+    logout(request)
+    return redirect("homepage")
+

@@ -1,0 +1,13 @@
+{% extends "popcornbucket/base.html" %}
+
+{% block content %}
+<h2>Sign Up</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">Create Account</button>
+</form>
+
+{% endblock %}
