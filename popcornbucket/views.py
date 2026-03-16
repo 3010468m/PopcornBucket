@@ -42,6 +42,13 @@ def film_detail(request, id):
     try:
         # retrieve all associated reviews
         reviews = Review.objects.filter(film=film)
+        sort = request.GET.get('sort')
+
+        if sort == 'newest':
+            reviews = reviews.order_by('-created_at')
+        elif sort == 'oldest':
+            reviews = reviews.order_by('created_at')
+
         context_dict['reviews'] = reviews
         context_dict['film'] = film
     except Film.DoesNotExist:

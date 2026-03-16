@@ -16,6 +16,10 @@
 {% else %}
     <a href="{% url 'login' %}">Log in</a> to Write a Review<br>
 {% endif %}
+<h3>Sort Reviews</h3>
+<a href="{% url 'film_detail' film.id %}?sort=newest">Newest</a>
+<a href="{% url 'film_detail' film.id %}?sort=oldest">Oldest</a>
+<a href="{% url 'film_detail' film.id %}">Clear Sorting</a>
 {% if reviews %}
     <ul>
         {% for review in reviews %}
