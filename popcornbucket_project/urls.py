@@ -23,11 +23,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path( '', views.homepage, name="homepage"),
     path('films/', include('popcornbucket.urls')),
-    path('<int:film_id>/', views.film_detail, name='film_detail'),
+    path('<int:id>/', views.film_detail, name='film_detail'),
     path ('signup/', views.signup_view, name="signup"),
     path('login/', views.login_view, name="login"),
     path('logout/', views.logout_view, name="logout"),
-    path('writereview/', views.write_review, name='write_review'),
+    path('writereview/<int:film_id>', views.write_review, name='write_review'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
