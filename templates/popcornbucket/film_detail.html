@@ -1,37 +1,43 @@
-<h1>{{ film.title }}</h1>
+{% extends "popcornbucket/base.html" %}
 
-<p><strong>Genre:</strong> {{ film.genre.name }}</p>
-<p><strong>Release year:</strong> {{ film.release_year }}</p>
-<p><strong>Description:</strong> {{ film.description }}</p>
+{% block content %}
+    <h1>{{ film.title }}</h1>
 
-{% if film.poster %}
-    <img src="{{ film.poster.url }}" alt="{{ film.title }}" width="200">
-{% else %}
-    <p>No poster found for this film.</p>
-{% endif %}
+    <p><strong>Genre:</strong> {{ film.genre.name }}</p>
+    <p><strong>Release year:</strong> {{ film.release_year }}</p>
+    <p><strong>Description:</strong> {{ film.description }}</p>
 
-<h2>User Reviews</h2>
-{% if request.user.is_authenticated %}
-    <a href="{% url 'write_review' film.id %}">Write a Review</a><br>
-{% else %}
-    <a href="{% url 'login' %}">Log in</a> to Write a Review<br>
-{% endif %}
-<h3>Sort Reviews</h3>
-<a href="{% url 'film_detail' film.id %}?sort=newest">Newest</a>
-<a href="{% url 'film_detail' film.id %}?sort=oldest">Oldest</a>
-<a href="{% url 'film_detail' film.id %}">Clear Sorting</a>
-{% if reviews %}
-    <ul>
-        {% for review in reviews %}
-        <p>
-            <strong>{{ review.user }}</strong><br>
-            Rating: {{ review.rating }}<br>
-            {{ review.review_text }}<br>
-        </p>
-        {% endfor %}
-    </ul>
-{% else %}
-    <strong>There are no reviews yet.</strong><br>
-{% endif %}
+    {% if film.poster %}
+        <img src="{{ film.poster.url }}" alt="{{ film.title }}" width="200">
+    {% else %}
+        <p>No poster found for this film.</p>
+    {% endif %}
 
-<a href="{% url 'film_list' %}">Back to film list</a>
+    <h2>User Reviews</h2>
+    {% if request.user.is_authenticated %}
+        <a href="{% url 'write_review' film.id %}">Write a Review</a><br>
+    {% else %}
+        <a href="{% url 'login' %}">Log in</a> to Write a Review<br>
+    {% endif %}
+    <h3>Sort Reviews</h3>
+    <a href="{% url 'film_detail' film.id %}?sort=newest">Newest</a>
+    <a href="{% url 'film_detail' film.id %}?sort=oldest">Oldest</a>
+    <a href="{% url 'film_detail' film.id %}?sort=most_popular">Most Popular</a>
+    <a href="{% url 'film_detail' film.id %}">Clear Sorting</a>
+    {% if reviews %}
+        <ul>
+            {% for review in reviews %}
+            <p>
+                <strong>{{ review.user }}</strong><br>
+                Rating: {{ review.rating }}<br>
+                {{ review.review_text }}<br>
+                UP: {{ review.up_votes }} DOWN: {{ review.down_votes }}<br>
+            </p>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <strong>There are no reviews yet.</strong><br>
+    {% endif %}
+
+    <a href="{% url 'film_list' %}">Back to film list</a>
+{% endblock %}

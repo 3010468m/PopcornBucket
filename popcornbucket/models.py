@@ -28,10 +28,11 @@ class Film(models.Model):
 class Review(models.Model):
     TEXT_MAX_LENGTH = 4000; 
 
-    #review_id = models.AutoField(primary_key=True, unique=True)
     rating = models.IntegerField(default=1)
     review_text = models.CharField(max_length= TEXT_MAX_LENGTH)
     created_at = models.DateTimeField(default=now)
+    up_votes = models.IntegerField(default=0)
+    down_votes = models.IntegerField(default=0)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     film = models.ForeignKey(Film, on_delete=models.CASCADE)
