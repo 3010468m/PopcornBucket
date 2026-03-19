@@ -40,4 +40,3 @@ class Review(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     film = models.ForeignKey(Film, on_delete=models.CASCADE)
-

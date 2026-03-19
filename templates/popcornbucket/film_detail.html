@@ -1,4 +1,5 @@
 {% extends "popcornbucket/base.html" %}
+{% load static %}
 
 {% block content %}
     <h1>{{ film.title }}</h1>
@@ -15,9 +16,9 @@
 
     <h2>User Reviews</h2>
     {% if request.user.is_authenticated %}
-        <a href="{% url 'write_review' film.id %}">Write a Review</a><br>
+        <a href="{% url 'write_review' film.id %}">Leave a Review</a><br>
     {% else %}
-        <a href="{% url 'login' %}">Log in</a> to Write a Review<br>
+        <a href="{% url 'login' %}">Log in</a> to Leave a Review<br>
     {% endif %}
     <h3>Sort Reviews</h3>
     <a href="{% url 'film_detail' film.id %}?sort=newest">Newest</a>
@@ -27,11 +28,57 @@
     {% if reviews %}
         <ul>
             {% for review in reviews %}
-            <p>
-                <strong>{{ review.user }}</strong><br>
-                Rating: {{ review.rating }}<br>
-                {{ review.review_text }}<br>
+
+            <div class="container">
+                <img src="{% static 'images/no_pfp.jpg' %}" alt="Avatar" style="width:90px">
+                <p class="text-decoration-underline"><span>{{ review.user }}</span> {{ review.rating }}</p>
+                <p>{{ review.review_text }}.</p>
                 UP: {{ review.up_votes }} DOWN: {{ review.down_votes }}<br>
+            </div>
+
+            <style>
+                /* container with a rounded corner, and white backgeound */
+                .container {
+                border: 2px solid #342a2a;
+                background-color: #ffffff;
+                border-radius: 5px;
+                padding: 16px;
+                margin: 16px 0;
+                }
+
+                /* Clear floats after containers */
+                .container::after {
+                content: "";
+                clear: both;
+                display: table;
+                }
+
+                /* float pfp in top left corner, make circular*/
+                .container img {
+                float: left;
+                margin-right: 20px;
+                border-radius: 50%;
+                }
+
+                /* Increase the font-size of a span element */
+                .container span {
+                font-size: 20px;
+                margin-right: 15px;
+                }
+
+                /* Add media queries for responsiveness. This will center both the text and the image inside the container */
+                @media (max-width: 500px) {
+                .container {
+                    text-align: center;
+                }
+
+                .container img {
+                    margin: auto;
+                    float: none;
+                    display: block;
+                }
+                }
+            </style>
             </p>
             {% endfor %}
         </ul>
