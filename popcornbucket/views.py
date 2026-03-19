@@ -78,6 +78,7 @@ def write_review(request, film_id):
             review = form.save(commit=False)
             review.film = film
             review.user = user
+            review.rating = request.POST.get('rating')
             review.save()
             return redirect('film_detail', film_id)
                 
