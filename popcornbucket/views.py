@@ -7,14 +7,22 @@ from django.db.models import F
 from django.http import JsonResponse
 import json
 
-from .models import Film, Genre, Review
+from .models import Film, Genre, Review, Watchlist
 from .forms import ReviewForm
 
 
 # Create your views here.
 # This view is responsible for creating a base/main page
 def homepage(request):
-    return render(request, "popcornbucket/homepage.html")
+    watchlist_films = []
+
+    if request.user.is_authenticated:
+        watchlist, created = Watchlist.objects.get_or_create(user=request.user)
+        watchlist_films = watchlist.films.all()[:4]
+
+    return render(request, "popcornbucket/homepage.html", {
+        "watchlist_films": watchlist_films
+    })
 
 def film_list(request):
     films = Film.objects.all()
@@ -53,13 +61,18 @@ def film_detail(request, id):
             reviews = reviews.order_by('created_at')
         elif sort == 'most_popular':
             reviews = reviews.annotate(total_votes=F('up_votes') -F('down_votes')).order_by('-total_votes')
+        in_watchlist = False
+        if request.user.is_authenticated:
+            watchlist, created = Watchlist.objects.get_or_create(user=request.user)
+            in_watchlist = watchlist.films.filter(id=film.pk).exists()
 
         context_dict['reviews'] = reviews
         context_dict['film'] = film
+        context_dict['in_watchlist'] = in_watchlist
     except Film.DoesNotExist:
         context_dict['reviews'] = None
         context_dict['film'] = None
-    
+        context_dict['in_watchlist'] = False
     return render(request, 'popcornbucket/film_detail.html', context=context_dict)
 
 def vote_review(request, review_id):
@@ -80,6 +93,20 @@ def vote_review(request, review_id):
             "down_votes": review.down_votes
         })
     
+@login_required
+def add_to_watchlist(request, film_id):
+    film = get_object_or_404(Film, id=film_id)
+    watchlist, created = Watchlist.objects.get_or_create(user=request.user)
+    watchlist.films.add(film)
+    return redirect('film_detail', id=film_id)
+
+
+@login_required
+def remove_from_watchlist(request, film_id):
+    film = get_object_or_404(Film, id=film_id)
+    watchlist, created = Watchlist.objects.get_or_create(user=request.user)
+    watchlist.films.remove(film)
+    return redirect('film_detail', id=film_id)
 
 #@login_required
 def write_review(request, film_id):
@@ -142,6 +169,10 @@ def logout_view(request):
 # User profile 
 @login_required
 def profile(request):
-    return render(request, "popcornbucket/profile.html", {"user": request.user})
+    watchlist, created = Watchlist.objects.get_or_create(user=request.user)
+    films = watchlist.films.all()
 
-
+    return render(request, "popcornbucket/profile.html", {
+        "user": request.user,
+        "films": films
+    })

@@ -6,6 +6,32 @@
 {% if user.is_authenticated %}
     <p>Hello, {{ user.username }}!</p>
     <p><a href="{% url 'logout' %}">Logout</a></p>
+    <h3>My Watchlist</h3>
+
+    {% if watchlist_films %}
+        <div class="row">
+            {% for film in watchlist_films %}
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100">
+                        {% if film.poster %}
+                            <img src="{{ film.poster.url }}" class="card-img-top" alt="{{ film.title }}">
+                        {% else %}
+                            <div class="card-body">
+                                <p>No poster available</p>
+                            </div>
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ film.title }}</h5>
+                            <a href="{% url 'film_detail' film.pk %}" class="btn btn-primary btn-sm">View</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <p><a href="{% url 'profile' %}">Show all</a></p>
+    {% else %}
+        <p>No films in your watchlist yet.</p>
+    {% endif %}
 {% else %}
     <p>You are not logged in.</p>
     <p><a href="{% url 'login' %}">Login</a></p>
