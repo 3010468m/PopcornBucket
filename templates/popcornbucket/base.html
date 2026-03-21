@@ -25,6 +25,7 @@
         <a href="/films/">Films</a>
 
         {% if user.is_authenticated %}
+            <a href="/profile/">Profile</a>
             <a href="/logout/">Logout</a>
         {% else %}
             <a href="/signup/">Sign up</a>
