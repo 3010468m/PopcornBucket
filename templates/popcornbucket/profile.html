@@ -4,6 +4,18 @@
 <div class="container">
     <h2>Welcome, {{ user.username }}!</h2>
 
+    {% if profile.profile_picture %}
+        <img src="{{ profile.profile_picture.url }}" alt="{{ user.username }}" width="120">
+    {% else %}
+        <p>No profile picture uploaded.</p>
+    {% endif %}
+
+    <p><strong>Date of Birth:</strong> {{ profile.date_of_birth }}</p>
+
+    <p>
+        <a href="{% url 'edit_profile' %}" class="btn btn-secondary btn-sm">Edit Profile</a>
+    </p>
+
     <h3 class="mt-4">My Watchlist</h3>
 
     {% if films %}

@@ -4,6 +4,9 @@ from django.utils.timezone import now
 import datetime
 from django.db import models
 from django.db.models import Avg
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 # Create your models here.
 
 
@@ -68,3 +71,21 @@ class Friendship(models.Model):
 
     def __str__(self):
         return f"{self.user.username} -> {self.friend.username}"
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
+    date_of_birth = models.DateField(blank=True, null=True)
+
+    def __str__(self):
+        return self.user.username
+    
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    UserProfile.objects.get_or_create(user=instance)

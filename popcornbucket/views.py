@@ -7,8 +7,8 @@ from django.db.models import F
 from django.http import JsonResponse
 import json
 from django.contrib.auth.models import User
-from .models import Film, Genre, Review, Watchlist, Friendship
-from .forms import ReviewForm
+from .models import Film, Genre, Review, Watchlist, Friendship, UserProfile
+from .forms import ReviewForm, EditProfileForm
 
 
 # Create your views here.
@@ -190,6 +190,7 @@ def logout_view(request):
 # User profile 
 @login_required
 def profile(request):
+    profile, created = UserProfile.objects.get_or_create(user=request.user)
     watchlist, created = Watchlist.objects.get_or_create(user=request.user)
     films = watchlist.films.all()
     friends = User.objects.filter(friends_of__user=request.user)
@@ -197,12 +198,13 @@ def profile(request):
         "user": request.user,
         "films": films,
         "friends":friends,
+        "profile": profile,
     })
 
 @login_required
 def user_profile(request, user_id):
     profile_user = get_object_or_404(User, id=user_id)
-
+    profile, created = UserProfile.objects.get_or_create(user=profile_user)
     watchlist, created = Watchlist.objects.get_or_create(user=profile_user)
     films = watchlist.films.all()
 
@@ -212,7 +214,22 @@ def user_profile(request, user_id):
 
     return render(request, "popcornbucket/user_profile.html", {
         "profile_user": profile_user,
+        "profile":profile,
         "films": films,
         "reviews": reviews,
         "is_friend": is_friend,
     })
+
+@login_required
+def edit_profile(request):
+    profile, created = UserProfile.objects.get_or_create(user=request.user)
+
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = EditProfileForm(instance=profile)
+
+    return render(request, 'popcornbucket/edit_profile.html', {'form': form})
