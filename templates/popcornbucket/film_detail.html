@@ -18,29 +18,34 @@
 
     <div class ="container">
 
-        <h5>User Reviews
-        {% if request.user.is_authenticated %}
-            <a href="{% url 'write_review' film.id %}"><button type="button" button class="btn btn-danger">Leave a review</button></a> 
-        {% else %}
-            <a href="{% url 'login' %}">Log in</a> to Leave a Review<br>
-        {% endif %}
+        <h3>User Reviews
+        <!--dropdown sorting options-->
+        <div class="dropdown show">
+            <a class="btn btn-outline-danger dropdown-toggle float-end" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Sort Reviews
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="{% url 'film_detail' film.id %}?sort=newest">Newest</a>
+                <a class="dropdown-item" href="{% url 'film_detail' film.id %}?sort=oldest">Oldest</a>
+                <a class="dropdown-item" href="{% url 'film_detail' film.id %}?sort=most_popular">Most Popular</a>
+            </div>
+        </div>
         </h3>
-        <h3>Sort Reviews</h5>
-        <a href="{% url 'film_detail' film.id %}?sort=newest">Newest</a>
-        <a href="{% url 'film_detail' film.id %}?sort=oldest">Oldest</a>
-        <a href="{% url 'film_detail' film.id %}?sort=most_popular">Most Popular</a>
-        <a href="{% url 'film_detail' film.id %}">Clear Sorting</a>
+
+        <a href="{% url 'write_review' film.id %}"><button type="button" button class="btn btn-danger float-start">Leave a review</button></a>
+        
+        <br>
+
         {% if reviews %}
             <ul>
                 {% for review in reviews %}
-
                 <div class="container">
                     <img src="{% static 'images/no_pfp.jpg' %}" alt="Avatar" style="width:90px">
                     <p class="text-decoration-underline"><span>{{ review.user }}</span> {{ review.rating }}</p>
                     <p>{{ review.review_text }}.</p>
                     UP: {{ review.up_votes }} DOWN: {{ review.down_votes }}<br>
                 </div>
-
+        
                 <style>
                     /* container with a rounded corner, and white background */
                     .container {

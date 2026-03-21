@@ -74,13 +74,13 @@
 
                     
             {% else %}
-                <p>You must <a href="{% url 'popcornbucket:log_in' %}">log in</a> to add a review.</p>
+                <div>
+                    <p>You must <a href="{% url 'login' %}" class="link-danger">Login</a> to leave a review.</p>
+                </div>
             {% endif %}
         </div>
 
-        <div>
-            <a href="{% url 'film_detail' film.id %}"></a>
-        </div>
+        
         <script>
             /* set star buttons to rating field in form */
             document.querySelectorAll('.star-rating:not(.readonly) label').forEach(star => {
