@@ -63,14 +63,13 @@
                         }
                     </style>
 
-                    {% for hidden in form.hidden_fields %}
-                        {{ hidden }}
-                    {% endfor %}
-                    {% for field in form.visible_fields %}
-                        {{ field.help_text }}
-                        {{ field }}
-                    {% endfor %}
-                    <button type="submit" class="btn btn-primary">Submit Review</button>
+                    <!-- display text box with input name = "review_text" to match form field -->
+                    <div class="form-group">
+                        <label for="review_text">Leave your Review:</label>
+                        <textarea class="form-control" rows="5" id="review_text" name="review_text"></textarea>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-danger">Submit Review</button>
                 </form>
 
                     
@@ -83,6 +82,7 @@
             <a href="{% url 'film_detail' film.id %}"></a>
         </div>
         <script>
+            /* set star buttons to rating field in form */
             document.querySelectorAll('.star-rating:not(.readonly) label').forEach(star => {
                 star.addEventListener('click', function() {
                     this.style.transform = 'scale(1.2)';
