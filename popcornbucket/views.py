@@ -139,3 +139,9 @@ def logout_view(request):
     logout(request)
     return redirect("homepage")
 
+# User profile 
+@login_required
+def profile(request):
+    return render(request, "popcornbucket/profile.html", {"user": request.user})
+
+
