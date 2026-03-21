@@ -31,5 +31,20 @@
     {% else %}
         <p>Your watchlist is empty.</p>
     {% endif %}
+
+    <h3 class="mt-4">My Friends</h3>
+
+    {% if friends %}
+        <ul>
+            {% for friend in friends %}
+                <li>
+                    <a href="{% url 'user_profile' friend.pk %}">{{ friend.username }}</a>
+                    <a href="{% url 'remove_friend' friend.pk %}" class="btn btn-warning btn-sm">Unfriend</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You have no friends added yet.</p>
+    {% endif %}
 </div>
 {% endblock %}

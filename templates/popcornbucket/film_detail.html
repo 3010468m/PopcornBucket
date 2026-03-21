@@ -82,6 +82,7 @@
             </div>
         </div>
         </h3>
+        
         <br>
 
         <!-- display all reviews for film-->
@@ -89,8 +90,13 @@
             <ul>
                 {% for review in reviews %}
                 <div class="container">
-                    <img class="review-pfp" src="{% static 'images/no_pfp.jpg' %}" alt="Avatar" style="width:90px">
-                    <p>{{ review.user }} {{ review.rating }} stars </p>
+                    <img src="{% static 'images/no_pfp.jpg' %}" alt="Avatar" style="width:90px">
+                    <p>
+                        <a href="{% url 'user_profile' review.user.pk %}">
+                            {{ review.user.username }}
+                        </a>
+                        {{ review.rating }} stars
+                    </p>
                     <p>{{ review.review_text }}.</p>
 
                     <!-- up or down vote reviews -->
@@ -104,8 +110,6 @@
                             <i class="bi bi-caret-down-fill"></i><span id="down-{{ review.id }}"> {{ review.down_votes }}</span>
                         </button>
                     </div>
-                
-                    UP: {{ review.up_votes }} DOWN: {{ review.down_votes }}<br>
                 </div>
                 </p>
                 {% endfor %}

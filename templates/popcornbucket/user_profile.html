@@ -1,0 +1,47 @@
+{% extends "popcornbucket/base.html" %}
+{% block content %}
+
+<h2>{{ profile_user.username }}</h2>
+
+{% if profile_user != request.user %}
+    {% if is_friend %}
+        <a href="{% url 'remove_friend' profile_user.pk %}" class="btn btn-warning">Unfriend</a>
+    {% else %}
+        <a href="{% url 'add_friend' profile_user.pk %}" class="btn btn-primary">Send Friend Request</a>
+    {% endif %}
+{% endif %}
+
+<h3>Watchlist</h3>
+{% if films %}
+    <div class="row">
+        {% for film in films %}
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    {% if film.poster %}
+                        <img src="{{ film.poster.url }}" class="card-img-top" alt="{{ film.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ film.title }}</h5>
+                        <a href="{% url 'film_detail' film.pk %}" class="btn btn-primary btn-sm">View Film</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No films in this watchlist yet.</p>
+{% endif %}
+
+<h3>User Reviews</h3>
+{% if reviews %}
+    {% for review in reviews %}
+        <div class="container">
+            <p><strong>{{ review.user.username }}</strong> - {{ review.rating }}</p>
+            <p>{{ review.review_text }}</p>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No reviews yet.</p>
+{% endif %}
+
+{% endblock %}
