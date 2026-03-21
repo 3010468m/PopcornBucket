@@ -108,7 +108,7 @@ def remove_from_watchlist(request, film_id):
     watchlist.films.remove(film)
     return redirect('film_detail', id=film_id)
 
-#@login_required
+@login_required
 def write_review(request, film_id):
 
     # check movie and user are valid (since they're foreign keys)
