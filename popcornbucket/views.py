@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
+from django.db.models import F
 
 from .models import Film, Genre, Review
 from .forms import ReviewForm
@@ -42,6 +43,15 @@ def film_detail(request, id):
     try:
         # retrieve all associated reviews
         reviews = Review.objects.filter(film=film)
+        sort = request.GET.get('sort')
+
+        if sort == 'newest':
+            reviews = reviews.order_by('-created_at')
+        elif sort == 'oldest':
+            reviews = reviews.order_by('created_at')
+        elif sort == 'most_popular':
+            reviews = reviews.annotate(total_votes=F('up_votes') -F('down_votes')).order_by('-total_votes')
+
         context_dict['reviews'] = reviews
         context_dict['film'] = film
     except Film.DoesNotExist:
@@ -68,6 +78,7 @@ def write_review(request, film_id):
             review = form.save(commit=False)
             review.film = film
             review.user = user
+            review.rating = request.POST.get('rating')
             review.save()
             return redirect('film_detail', film_id)
                 
