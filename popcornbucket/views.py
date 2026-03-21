@@ -6,8 +6,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.db.models import F
 from django.http import JsonResponse
 import json
-
-from .models import Film, Genre, Review, Watchlist
+from django.contrib.auth.models import User
+from .models import Film, Genre, Review, Watchlist, Friendship
 from .forms import ReviewForm
 
 
@@ -108,6 +108,27 @@ def remove_from_watchlist(request, film_id):
     watchlist.films.remove(film)
     return redirect('film_detail', id=film_id)
 
+
+@login_required
+def add_friend(request, user_id):
+    other_user = get_object_or_404(User, id=user_id)
+
+    if other_user != request.user:
+        Friendship.objects.get_or_create(user=request.user, friend=other_user)
+        Friendship.objects.get_or_create(user=other_user, friend=request.user)
+
+    return redirect('user_profile', user_id=other_user.pk)
+
+
+@login_required
+def remove_friend(request, user_id):
+    other_user = get_object_or_404(User, id=user_id)
+
+    Friendship.objects.filter(user=request.user, friend=other_user).delete()
+    Friendship.objects.filter(user=other_user, friend=request.user).delete()
+
+    return redirect('user_profile', user_id=other_user.pk)
+
 #@login_required
 def write_review(request, film_id):
 
@@ -171,8 +192,27 @@ def logout_view(request):
 def profile(request):
     watchlist, created = Watchlist.objects.get_or_create(user=request.user)
     films = watchlist.films.all()
-
+    friends = User.objects.filter(friends_of__user=request.user)
     return render(request, "popcornbucket/profile.html", {
         "user": request.user,
-        "films": films
+        "films": films,
+        "friends":friends,
+    })
+
+@login_required
+def user_profile(request, user_id):
+    profile_user = get_object_or_404(User, id=user_id)
+
+    watchlist, created = Watchlist.objects.get_or_create(user=profile_user)
+    films = watchlist.films.all()
+
+    reviews = Review.objects.filter(user=profile_user).order_by('-created_at')
+
+    is_friend = Friendship.objects.filter(user=request.user, friend=profile_user).exists()
+
+    return render(request, "popcornbucket/user_profile.html", {
+        "profile_user": profile_user,
+        "films": films,
+        "reviews": reviews,
+        "is_friend": is_friend,
     })
