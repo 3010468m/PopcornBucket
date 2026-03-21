@@ -13,13 +13,13 @@ def populate():
             {
                 "title": "The Dark Knight",
                 "description": "Batman faces the Joker in Gotham City.",
-                "poster_url": "https://example.com/dark_knight.jpg",
+                "poster": "https://example.com/dark_knight.jpg",
                 "release_year": 2008,
             },
             {
                 "title": "Mad Max: Fury Road",
                 "description": "A high-speed chase through a post-apocalyptic desert.",
-                "poster_url": "https://example.com/mad_max.jpg",
+                "poster": "https://example.com/mad_max.jpg",
                 "release_year": 2015,
             },
         ],
@@ -27,13 +27,13 @@ def populate():
             {
                 "title": "Inception",
                 "description": "A thief enters dreams to steal and plant ideas.",
-                "poster_url": "https://example.com/inception.jpg",
+                "poster": "https://example.com/inception.jpg",
                 "release_year": 2010,
             },
             {
                 "title": "Interstellar",
                 "description": "A team travels through a wormhole to save humanity.",
-                "poster_url": "https://example.com/interstellar.jpg",
+                "poster": "https://example.com/interstellar.jpg",
                 "release_year": 2014,
             },
         ],

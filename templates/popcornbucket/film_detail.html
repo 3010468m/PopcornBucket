@@ -15,9 +15,23 @@
             </div>
             <div class="col-12 col-sm-6 col-md-8">
                 <p>
+                    {% if request.user.is_authenticated %}
+                        {% if in_watchlist %}
+                            <p>
+                                <a href="{% url 'remove_from_watchlist' film.pk %}" class="btn btn-warning float-end">Remove from Watchlist</a>
+                            </p>
+                        {% else %}
+                            <p>
+                                <a href="{% url 'add_to_watchlist' film.pk %}" class="btn btn-danger float-end">Add to Watchlist</a>
+                            </p>
+                        {% endif %}
+                    {% else %}
+                        <p><div class="float-end"><a href="{% url 'login' %}" class="link-secondary">Log in</a> to add this film to your watchlist.</div></p>
+                    {% endif %}
+
                     <a href="{% url 'film_list' %}?genre={{ film.genre.id }}" ><button type="button" button class="btn btn-outline-dark">{{ film.genre.name }}</button></a>
                     <div>
-                        <h4><strong>Released:</strong> {{ film.release_year }}</h4>
+                        <br><h4><strong>Released:</strong> {{ film.release_year }}</h4>
                     </div>
                     <div class="col">
                         <p><h4>{{ film.description }}</h4></p>
@@ -28,34 +42,23 @@
         </div>
     </div>
 
-    {% if request.user.is_authenticated %}
-        {% if in_watchlist %}
-            <p>
-                <a href="{% url 'remove_from_watchlist' film.pk %}" class="btn btn-warning">Remove from Watchlist</a>
-            </p>
-        {% else %}
-            <p>
-                <a href="{% url 'add_to_watchlist' film.pk %}" class="btn btn-primary">Add to Watchlist</a>
-            </p>
-        {% endif %}
-    {% else %}
-        <p><a href="{% url 'login' %}">Log in</a> to add this film to your watchlist.</p>
-    {% endif %}
-
-    <h2>Cinemas showing this film</h2>
-    <ul>
-        {% for cinema in film.cinemas.all %}
-            <li>
-                <strong>{{ cinema.name }}</strong>
-                {% if cinema.location %} - {{ cinema.location }}{% endif %}
-                {% if cinema.website %} -
-                    <a href="{{ cinema.website }}" target="_blank" rel="noopener noreferrer">Book tickets</a>
-                {% endif %}
-            </li>
-        {% empty %}
-            <li>No cinemas currently showing this film.</li>
-        {% endfor %}
-    </ul>
+    <div class="container">
+        <h2>Cinemas showing this film</h2>
+        <ul>
+            {% for cinema in film.cinemas.all %}
+                <li>
+                    <strong>{{ cinema.name }}</strong>
+                    {% if cinema.location %} - {{ cinema.location }}{% endif %}
+                    {% if cinema.website %} -
+                        <a href="{{ cinema.website }}" target="_blank" rel="noopener noreferrer">Book tickets</a>
+                    {% endif %}
+                </li>
+            {% empty %}
+                <li>No cinemas currently showing this film.</li>
+            {% endfor %}
+        </ul>
+    </div>
+    
 
     <div class="container">
 
@@ -89,12 +92,12 @@
                 {% for review in reviews %}
                 <div class="container">
                     {% if review.user.userprofile.profile_picture %}
-                        <img src="{{ review.user.userprofile.profile_picture.url }}" alt="Avatar" style="width:90px">
+                        <img src="{{ review.user.userprofile.profile_picture.url }}" alt="Avatar" class="review-pfp" >
                     {% else %}
-                        <img src="{% static 'images/no_pfp.jpg' %}" alt="Avatar" style="width:90px">
+                        <img src="{% static 'images/no_pfp.jpg' %}" alt="Avatar" class="review-pfp">
                     {% endif %}
                     <p>
-                        <a href="{% url 'user_profile' review.user.pk %}">
+                        <a href="{% url 'user_profile' review.user.pk %}" class="link-secondary">
                             {{ review.user.username }}
                         </a>
                         {{ review.rating }} stars
@@ -140,6 +143,8 @@
             float: left;
             margin-right: 20px;
             border-radius: 50%;
+            width: 70px;
+            height: 70px;
         }
 
         .poster-img {
@@ -164,7 +169,7 @@
         }
     </style>
 
-    <a href="{% url 'film_list' %}">Back to film list</a>
+    <a href="{% url 'film_list' %}" class="link-secondary">Back to film list</a>
 
     <script>
     document.querySelectorAll('.vote-btn').forEach(button => {
