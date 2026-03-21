@@ -19,14 +19,15 @@ from popcornbucket import views
 from django.conf import settings
 from django.conf.urls.static import static
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path( '', views.homepage, name="homepage"),
-    path('films/', include('popcornbucket.urls')),
-    path('<int:id>/', views.film_detail, name='film_detail'),
-    path ('signup/', views.signup_view, name="signup"),
+urlpatterns = [ 
+    path('admin/', admin.site.urls), 
+    path( '', views.homepage, name="homepage"), 
+    path('films/', include('popcornbucket.urls')), 
+    path('<int:id>/', views.film_detail, name='film_detail'), 
+    path ('signup/', views.signup_view, name="signup"), 
     path('login/', views.login_view, name="login"),
-    path('logout/', views.logout_view, name="logout"),
+    path('logout/', views.logout_view, name="logout"), 
+    path('review/<int:review_id>/vote/', views.vote_review, name='vote_review'), 
     path("profile/" , views.profile, name = "profile"),
     path('review/<int:film_id>', views.write_review, name='write_review'),
 

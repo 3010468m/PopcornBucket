@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import F
+from django.http import JsonResponse
+import json
 
 from .models import Film, Genre, Review
 from .forms import ReviewForm
@@ -59,6 +61,24 @@ def film_detail(request, id):
         context_dict['film'] = None
     
     return render(request, 'popcornbucket/film_detail.html', context=context_dict)
+
+def vote_review(request, review_id):
+    if request.method == "POST":
+        review = get_object_or_404(Review, id=review_id)
+        data = json.loads(request.body)
+        vote_type = data.get("vote_type")
+
+        if vote_type == "up":
+            review.up_votes += 1
+        elif vote_type == "down":
+            review.down_votes += 1
+
+        review.save()
+
+        return JsonResponse({
+            "up_votes": review.up_votes,
+            "down_votes": review.down_votes
+        })
     
 
 #@login_required
