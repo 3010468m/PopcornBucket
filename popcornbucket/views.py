@@ -26,7 +26,11 @@ def film_list(request):
 
     sort = request.GET.get('sort')
     genre_id = request.GET.get('genre')
+    query = request.GET.get('q')
 
+    if query:
+        films = films.filter(title__icontains=query)
+    
     if genre_id:
         films = films.filter(genre_id=genre_id)
 
@@ -38,6 +42,7 @@ def film_list(request):
     context = {
         'films': films,
         'genres': genres,
+        'query':query,
     }
     return render(request, 'popcornbucket/film_list.html', context)
 
