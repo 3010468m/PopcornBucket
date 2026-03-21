@@ -3,6 +3,9 @@
 {% block content %}
 
 <h1>Film List</h1>
+{% if query %}
+    <p>Showing results for "<strong>{{ query }}</strong>"</p>
+{% endif %}
 
 <h2>Sort Films</h2>
 <a href="{% url 'film_list' %}?sort=newest">Newest</a>
@@ -20,21 +23,23 @@
 </ul>
 
 <h2>Films</h2>
-<ul>
-    {% for film in films %}
-        <li>
-            <a href="{% url 'film_detail' film.id %}">{{ film.title }}</a>
-            - {{ film.genre.name }} - {{ film.release_year }} - PopcornBucket rating:
-            {% if film.avg_rating %}
-                {{ film.avg_rating|floatformat:0 }}
-            {% else %}
-                no ratings
-            {% endif %}
-            <br>
-        </li>
-    {% empty %}
-        <li>No films available.</li>
-    {% endfor %}
-</ul>
+{% if films %}
+    <ul>
+        {% for film in films %}
+            <li>
+                <a href="{% url 'film_detail' film.id %}">{{ film.title }}</a>
+                - {{ film.genre.name }} - {{ film.release_year }} - PopcornBucket rating:
+                {% if film.avg_rating %}
+                    {{ film.avg_rating|floatformat:0 }}
+                {% else %}
+                    no ratings
+                {% endif %}
+                <br>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No films found.</p>
+{% endif %}
 
 {% endblock %}
