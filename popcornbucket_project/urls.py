@@ -27,7 +27,9 @@ urlpatterns = [
     path ('signup/', views.signup_view, name="signup"),
     path('login/', views.login_view, name="login"),
     path('logout/', views.logout_view, name="logout"),
+    path("profile/" , views.profile, name = "profile"),
     path('review/<int:film_id>', views.write_review, name='write_review'),
+
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
