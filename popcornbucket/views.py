@@ -14,14 +14,10 @@ from .forms import ReviewForm, EditProfileForm
 # Create your views here.
 # This view is responsible for creating a base/main page
 def homepage(request):
-    watchlist_films = []
-
-    if request.user.is_authenticated:
-        watchlist, created = Watchlist.objects.get_or_create(user=request.user)
-        watchlist_films = watchlist.films.all()[:4]
+    films = Film.objects.filter(cinemas__isnull=False).distinct()[:5]
 
     return render(request, "popcornbucket/homepage.html", {
-        "watchlist_films": watchlist_films
+        "films": films
     })
 
 def film_list(request):
