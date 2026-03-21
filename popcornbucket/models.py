@@ -37,3 +37,11 @@ class Review(models.Model):
     film = models.ForeignKey(Film, on_delete=models.CASCADE)
 
 
+class Cinema(models.Model):
+    name = models.CharField(max_length=100)
+    location = models.CharField(max_length=255, blank=True)
+    website = models.URLField(blank=True)
+    films = models.ManyToManyField(Film, blank=True, related_name='cinemas')
+
+    def __str__(self):
+        return self.name

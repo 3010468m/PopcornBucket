@@ -10,6 +10,21 @@
     <p>No poster found for this film.</p>
 {% endif %}
 
+<h2>Cinemas showing this film</h2>
+    <ul>
+        {% for cinema in film.cinemas.all %}
+            <li>
+                <strong>{{ cinema.name }}</strong>
+                {% if cinema.location %} - {{ cinema.location }}{% endif %}
+                {% if cinema.website %} -
+                    <a href="{{ cinema.website }}" target="_blank">Book tickets</a>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>No cinemas currently showing this film.</li>
+        {% endfor %}
+    </ul>
+
 <h2>User Reviews</h2>
 {% if request.user.is_authenticated %}
     <a href="{% url 'write_review' film.id %}">Write a Review</a><br>
