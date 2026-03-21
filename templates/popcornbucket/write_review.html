@@ -83,15 +83,15 @@
             <a href="{% url 'film_detail' film.id %}"></a>
         </div>
         <script>
-                        document.querySelectorAll('.star-rating:not(.readonly) label').forEach(star => {
-                            star.addEventListener('click', function() {
-                                this.style.transform = 'scale(1.2)';
-                                setTimeout(() => {
-                                    this.style.transform = 'scale(1)';
-                                }, 200);
-                            });
-                        });
-                    </script>
+            document.querySelectorAll('.star-rating:not(.readonly) label').forEach(star => {
+                star.addEventListener('click', function() {
+                    this.style.transform = 'scale(1.2)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 200);
+                });
+            });
+        </script>
 
     </body>
 {% endblock %}
