@@ -4,7 +4,5 @@ from popcornbucket.models import Film, Review
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
-        fields = ('review_text', 'rating')
-
-
-
+        fields = ('review_text', 'rating', )
+        

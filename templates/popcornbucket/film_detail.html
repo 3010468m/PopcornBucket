@@ -28,6 +28,8 @@
                 <a class="dropdown-item" href="{% url 'film_detail' film.id %}?sort=newest">Newest</a>
                 <a class="dropdown-item" href="{% url 'film_detail' film.id %}?sort=oldest">Oldest</a>
                 <a class="dropdown-item" href="{% url 'film_detail' film.id %}?sort=most_popular">Most Popular</a>
+                <hr class="dropdown-divider">
+                <a class ="dropdown-item" href="{% url 'film_detail' film.id %}">Clear Sorting</a>
             </div>
         </div>
         </h3>
@@ -36,13 +38,27 @@
         
         <br>
 
+        <!-- display all reviews for film-->
         {% if reviews %}
             <ul>
                 {% for review in reviews %}
                 <div class="container">
                     <img src="{% static 'images/no_pfp.jpg' %}" alt="Avatar" style="width:90px">
-                    <p class="text-decoration-underline"><span>{{ review.user }}</span> {{ review.rating }}</p>
+                    <p>{{ review.user }} {{ review.rating }} stars </p>
                     <p>{{ review.review_text }}.</p>
+
+                    <!-- up or down vote reviews -->
+
+                    <div class="d-flex gap-2 mt-2">
+                        <button class="btn btn-outline-danger btn-sm vote-btn" data-review-id="{{ review.id }}" data-vote="up">
+                            <i class="bi bi-caret-up-fill"></i><span id="up-{{ review.id }}"> {{ review.up_votes }}</span>
+                        </button>
+
+                        <button class="btn btn-outline-danger btn-sm vote-btn" data-review-id="{{ review.id }}" data-vote="down">
+                            <i class="bi bi-caret-down-fill"></i><span id="down-{{ review.id }}"> {{ review.down_votes }}</span>
+                        </button>
+                    </div>
+                
                     UP: {{ review.up_votes }} DOWN: {{ review.down_votes }}<br>
                 </div>
         
@@ -98,4 +114,43 @@
     </div>
 
     <a href="{% url 'film_list' %}">Back to film list</a>
+
+    <script>
+    document.querySelectorAll('.vote-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const reviewId = this.dataset.reviewId;
+            const voteType = this.dataset.vote;
+
+            fetch(`/review/${reviewId}/vote/`, {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": getCookie("csrftoken"),
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    vote_type: voteType
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById(`up-${reviewId}`).innerText = data.up_votes;
+                document.getElementById(`down-${reviewId}`).innerText = data.down_votes;
+            });
+        });
+    });
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+            document.cookie.split(";").forEach(cookie => {
+                const trimmed = cookie.trim();
+                if (trimmed.startsWith(name + "=")) {
+                    cookieValue = decodeURIComponent(trimmed.substring(name.length + 1));
+                }
+            });
+        }
+        return cookieValue;
+    }
+    </script>
+
 {% endblock %}
