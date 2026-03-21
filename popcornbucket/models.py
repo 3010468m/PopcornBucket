@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.timezone import now
-import datetime
 from django.db import models
 from django.db.models import Avg
 from django.db.models.signals import post_save
