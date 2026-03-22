@@ -8,22 +8,32 @@
     <p>Showing results for "<strong>{{ query }}</strong>"</p>
 {% endif %}
 
-<h2>Sort Films</h2>
-<a href="{% url 'film_list' %}?sort=newest">Newest</a>
-<a href="{% url 'film_list' %}?sort=oldest">Oldest</a>
-<a href="{% url 'film_list' %}">Clear Sorting</a>
+<!--dropdown sorting options-->
+        <div class="dropdown show">
+            <a class="btn btn-outline-danger dropdown-toggle float-end" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Sort Films
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="{% url 'film_list' %}?sort=newest">Newest</a>
+                <a class="dropdown-item" href="{% url 'film_list' %}?sort=oldest">Oldest</a>
+                <a class="dropdown-item" href="{% url 'film_list' %}?sort=most_popular">Most Popular</a>
+                <hr class="dropdown-divider">
+                <a class ="dropdown-item" href="{% url 'film_list' %}">Clear Sorting</a>
+            </div>
+        </div>
 
-<h2>Filter by Genre</h2>
-<ul>
-    <li><a href="{% url 'film_list' %}">All Genres</a></li>
-    {% for genre in genres %}
-        <li>
-            <a href="{% url 'film_list' %}?genre={{ genre.id }}">{{ genre.name }}</a>
-        </li>
-    {% endfor %}
-</ul>
+ <!--dropdown filter options-->
+        <div class="dropdown show">
+            <a class="btn btn-outline-danger dropdown-toggle float-end" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Filter By Genre
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="{% url 'film_list' %}">All Genres</a></li>
+                {% for genre in genres %}
+                    <a class="dropdown-item" href="{% url 'film_list' %}?genre={{ genre.id }}">{{ genre.name }}</a>
+                {% endfor %}
+        </div>
 
-<h2>Films</h2>
 {% if films %}
     <ul>
         {% for film in films %}
