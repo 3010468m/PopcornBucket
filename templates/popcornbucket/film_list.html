@@ -27,10 +27,17 @@
     <ul>
         {% for film in films %}
             <li>
-                <a href="{% url 'film_detail' film.id %}">{{ film.title }}</a>
-                - {{ film.genre.name }} - {{ film.release_year }} - PopcornBucket rating:
+                <a href="{% url 'film_detail' film.pk %}">{{ film.title }}</a>
+                - {{ film.genre.name }} - {{ film.release_year }}
+                - IMDb rating:
+                {% if film.imdb_rating %}
+                    {{ film.imdb_rating }}/10
+                {% else %}
+                    no rating
+                {% endif %}
+                - PopcornBucket rating:
                 {% if film.avg_rating %}
-                    {{ film.avg_rating|floatformat:0 }}
+                    {{ film.avg_rating|floatformat:1 }}/10
                 {% else %}
                     no ratings
                 {% endif %}
