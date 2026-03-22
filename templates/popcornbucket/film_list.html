@@ -72,7 +72,7 @@
                     <i class="bi bi-star-fill" style="color:gold;"></i>
                     PopcornBucket rating:
                     {% if film.avg_rating %}
-                        {{ film.avg_rating|floatformat:1 }}/10
+                        {{ film.avg_rating|floatformat:1 }}/5
                     {% else %}
                         no ratings
                     {% endif %}
@@ -89,8 +89,7 @@
         </div>
     {% endfor %}
     </ul>
-        {% endfor %}
-    </ul>
+        
 {% else %}
         <p>No films found.</p>
 {% endif %}
