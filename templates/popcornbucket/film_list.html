@@ -1,4 +1,5 @@
 {% extends "popcornbucket/base.html" %}
+{% load static %}
 
 {% block content %}
 
@@ -7,46 +8,99 @@
     <p>Showing results for "<strong>{{ query }}</strong>"</p>
 {% endif %}
 
-<h2>Sort Films</h2>
-<a href="{% url 'film_list' %}?sort=newest">Newest</a>
-<a href="{% url 'film_list' %}?sort=oldest">Oldest</a>
-<a href="{% url 'film_list' %}">Clear Sorting</a>
+<!--dropdown sorting options-->
+        <div class="dropdown">
+            <a class="btn btn-outline-danger dropdown-toggle float-end" href="#" role="button" id="dropdownSort" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Sort Films
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownSort">
+                <a class="dropdown-item" href="{% url 'film_list' %}?sort=newest">Newest</a>
+                <a class="dropdown-item" href="{% url 'film_list' %}?sort=oldest">Oldest</a>
+                <a class="dropdown-item" href="{% url 'film_list' %}?sort=most_popular">Most Popular</a>
+                <hr class="dropdown-divider">
+                <a class ="dropdown-item" href="{% url 'film_list' %}">Clear Sorting</a>
+            </div>
+        </div>
 
-<h2>Filter by Genre</h2>
-<ul>
-    <li><a href="{% url 'film_list' %}">All Genres</a></li>
-    {% for genre in genres %}
-        <li>
-            <a href="{% url 'film_list' %}?genre={{ genre.id }}">{{ genre.name }}</a>
-        </li>
-    {% endfor %}
-</ul>
+ <!--dropdown filter options-->
+        <div class="dropdown">
+            <a class="btn btn-outline-danger dropdown-toggle float-end" href="#" role="button" id="dropdownFilter" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Filter By Genre
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownFilter">
+                <a class="dropdown-item" href="{% url 'film_list' %}">All Genres</a></li>
+                {% for genre in genres %}
+                    <a class="dropdown-item" href="{% url 'film_list' %}?genre={{ genre.id }}">{{ genre.name }}</a>
+                {% endfor %}
+            </div>
+        </div>
 
-<h2>Films</h2>
 {% if films %}
     <ul>
-        {% for film in films %}
-            <li>
-                <a href="{% url 'film_detail' film.pk %}">{{ film.title }}</a>
-                - {{ film.genre.name }} - {{ film.release_year }}
-                - IMDb rating:
-                {% if film.imdb_rating %}
-                    {{ film.imdb_rating }}/10
+    {% for film in films %}
+        <div class="row justify-content-start mb-4">
+            <div class="col-6 col-md-4">
+                {% if film.poster %}
+                    <img class="poster-img" src="{{ film.poster.url }}" alt="{{ film.title }}">
                 {% else %}
-                    no rating
+                    <img class="poster-img" src="{% static 'images/NoPosterAvailable.jpg' %}" alt="{{ film.title }}">
                 {% endif %}
-                - PopcornBucket rating:
-                {% if film.avg_rating %}
-                    {{ film.avg_rating|floatformat:1 }}/10
-                {% else %}
-                    no ratings
-                {% endif %}
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-8">
+                <h3>
+                    <a class="link-underline link-underline-opacity-0" 
+                    href="{% url 'film_detail' film.id %}" 
+                    style="color:black">
+                    {{ film.title }}
+                    </a>
+                </h3>
+
+                <!-- IMDb rating -->
+                <h5>
+                    <i class="bi bi-star-fill" style="color:gold;"></i>
+                    IMDb rating:
+                    {% if film.imdb_rating %}
+                        {{ film.imdb_rating|floatformat:1 }}/10
+                    {% else %}
+                        no rating
+                    {% endif %}
+                </h5>
+
+                <!-- PopcornBucket rating -->
+                <h5>
+                    <i class="bi bi-star-fill" style="color:gold;"></i>
+                    PopcornBucket rating:
+                    {% if film.avg_rating %}
+                        {{ film.avg_rating|floatformat:1 }}/10
+                    {% else %}
+                        no ratings
+                    {% endif %}
+                </h5>
+
                 <br>
-            </li>
+
+                <a href="{% url 'film_list' %}?genre={{ film.genre.id }}">
+                    <button type="button" class="btn btn-outline-dark">
+                        {{ film.genre.name }}
+                    </button>
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+    </ul>
         {% endfor %}
     </ul>
 {% else %}
-    <p>No films found.</p>
+        <p>No films found.</p>
 {% endif %}
+
+<style>
+    .poster-img {
+            border-radius: 0;
+            width: 130px;
+            margin-bottom: 25px;
+        }
+</style>
 
 {% endblock %}

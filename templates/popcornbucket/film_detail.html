@@ -7,11 +7,11 @@
         <div class="row justify-content-start">
             <div class="col-6 col-md-4">
                 {% if film.poster %}
-                    <img class="poster-img" src="{{ film.poster.url }}" alt="{{ film.title }}" width="250">
-                    <h1>{{ film.title }}</h1>
+                    <img class="poster-img" src="{{ film.poster.url }}" alt="{{ film.title }}">
                     {% else %}
-                        <p>No poster found for this film.</p>
+                        <img class="poster-img" src="{% static 'images/NoPosterAvailable.jpg' %}" alt="{{ film.title }}">
                     {% endif %}
+                    <h1>{{ film.title }}</h1>
             </div>
             <div class="col-12 col-sm-6 col-md-8">
                 <p>
@@ -51,10 +51,23 @@
                     </div>
                     <div>
                         <br><h4><strong>Released:</strong> {{ film.release_year }}</h4>
-                    </div>
-                    <div class="col">
                         <p><h4>{{ film.description }}</h4></p>
                     </div>
+                    <div class="row justify-content-around">
+                        <div class="col">
+                            <h5><i class="bi bi-star-fill" style="color:gold;"></i>
+                            tmdb rating:  </h5>
+                        </div>
+                        <div class="col">
+                            <h5><i class="bi bi-star-fill" style="color:gold;"></i>
+                            popcornbucket rating: 
+                            {% if film.avg_rating %}
+                                {{ film.avg_rating|floatformat:0 }}
+                            {% else %}
+                                no ratings
+                            {% endif %}
+                            </h5>
+                        </div>
                     </div>
                 </p>
             </div>
@@ -101,7 +114,6 @@
                 <a class ="dropdown-item" href="{% url 'film_detail' film.id %}">Clear Sorting</a>
             </div>
         </div>
-        </h3>
         
         <br>
 
@@ -168,6 +180,7 @@
 
         .poster-img {
             border-radius: 0;
+            width: 250px;
         }
 
         .container span {
