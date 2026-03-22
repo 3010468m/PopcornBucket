@@ -1,22 +1,94 @@
 {% extends "popcornbucket/base.html" %}
 
 {% block content %}
-<h2>Login</h2>
+<div class="container py-5" style="max-width: 720px;">
 
-<form method="POST">
-    {% csrf_token %}
+    <div class="text-center mb-5">
+        <h3 class="login-heading mb-2">Sign in to leave reviews, add movies</h3>
+        <h3 class="login-heading">to your watchlist, and more!</h3>
+    </div>
 
-    <label>Username:</label><br>
-    <input type="text" name="username" required><br><br>
+    <form method="POST" class="mx-auto" style="max-width: 420px;">
+        {% csrf_token %}
 
-    <label>Password:</label><br>
-    <input type="password" name="password" required><br><br>
+        <div class="row mb-3 align-items-center">
+            <div class="col-4 text-start">
+                <label for="username" class="form-label login-label mb-0">username</label>
+            </div>
+            <div class="col-8">
+                <input type="text" id="username" name="username" class="form-control login-input" required>
+            </div>
+        </div>
 
-    <button type="submit">Login</button>
+        <div class="row mb-4 align-items-center">
+            <div class="col-4 text-start">
+                <label for="password" class="form-label login-label mb-0">password</label>
+            </div>
+            <div class="col-8">
+                <input type="password" id="password" name="password" class="form-control login-input" required>
+            </div>
+        </div>
 
-    {% if error %}
-        <p style="color:red">{{ error }}</p>
-    {% endif %}
-</form>
+        {% if error %}
+            <div class="text-center mb-3">
+                <p class="text-danger mb-0">{{ error }}</p>
+            </div>
+        {% endif %}
 
+        <div class="d-flex justify-content-center align-items-end gap-5 mt-4 flex-wrap">
+            <button type="submit" class="btn login-btn px-4">
+                Sign in
+            </button>
+
+            <div class="text-center">
+                <p class="small mb-1 register-text">not got an account?</p>
+                <a href="{% url 'signup' %}" class="btn register-btn px-4">
+                    Register
+                </a>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<style>
+    .login-heading {
+        font-size: 1.8rem;
+        font-weight: 500;
+    }
+
+    .login-label {
+        font-size: 1.5rem;
+        font-weight: 500;
+        text-transform: lowercase;
+    }
+
+    .login-input {
+        border: 1px solid #999;
+        border-radius: 0;
+        height: 44px;
+        font-size: 1.1rem;
+    }
+
+    .login-btn,
+    .register-btn {
+        background-color: #ead27a;
+        border: 1px solid #999;
+        border-radius: 0;
+        color: #111;
+        font-size: 1.7rem;
+        line-height: 1;
+    }
+
+    .login-btn:hover,
+    .register-btn:hover {
+        background-color: #e0c766;
+        color: #111;
+    }
+
+    .register-text {
+        font-size: 1rem;
+        color: #444;
+    }
+</style>
 {% endblock %}

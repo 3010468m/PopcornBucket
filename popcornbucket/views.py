@@ -195,11 +195,13 @@ def profile(request):
     watchlist, created = Watchlist.objects.get_or_create(user=request.user)
     films = watchlist.films.all()
     friends = User.objects.filter(friends_of__user=request.user)
+    reviews = Review.objects.filter(user=request.user).order_by('-created_at')
     return render(request, "popcornbucket/profile.html", {
         "user": request.user,
         "films": films,
         "friends":friends,
         "profile": profile,
+        "reviews":reviews,
     })
 
 @login_required

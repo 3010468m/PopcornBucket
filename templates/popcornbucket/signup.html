@@ -1,13 +1,104 @@
 {% extends "popcornbucket/base.html" %}
 
 {% block content %}
-<h2>Sign Up</h2>
+<div class="container py-5" style="max-width: 720px;">
 
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
+    <div class="text-center mb-5">
+        <h2 class="login-heading">Create your account</h2>
+    </div>
 
-    <button type="submit">Create Account</button>
-</form>
+    <form method="POST" class="mx-auto" style="max-width: 500px;">
+        {% csrf_token %}
+
+        <!-- USERNAME -->
+        <div class="mb-4">
+            <label class="form-label login-label">username</label>
+            {{ form.username }}
+            <small class="form-text text-muted">
+                Letters, digits and @/./+/-/_ only.
+            </small>
+        </div>
+
+        <!-- PASSWORD -->
+        <div class="mb-4">
+            <label class="form-label login-label">password</label>
+            {{ form.password1 }}
+
+            <ul class="password-help mt-2">
+                <li>Your password can’t be too similar to your personal information.</li>
+                <li>Your password must contain at least 8 characters.</li>
+                <li>Your password can’t be a commonly used password.</li>
+                <li>Your password can’t be entirely numeric.</li>
+            </ul>
+        </div>
+
+        <!-- CONFIRM PASSWORD -->
+        <div class="mb-4">
+            <label class="form-label login-label">confirm password</label>
+            {{ form.password2 }}
+        </div>
+
+        <!-- ERRORS -->
+        {% if form.errors %}
+            <div class="text-danger mb-3 text-center">
+                {{ form.errors }}
+            </div>
+        {% endif %}
+
+        <!-- BUTTON -->
+        <div class="text-center mt-4">
+            <button type="submit" class="btn register-btn px-4">
+                Create Account
+            </button>
+        </div>
+
+    </form>
+
+</div>
+
+<style>
+    .login-heading {
+        font-size: 1.8rem;
+        font-weight: 500;
+    }
+
+    .login-label {
+        font-size: 1.3rem;
+        font-weight: 500;
+        text-transform: lowercase;
+    }
+
+    input {
+        width: 100%;
+        border: 1px solid #999;
+        border-radius: 0;
+        height: 44px;
+        padding: 6px;
+        font-size: 1.05rem;
+    }
+
+    .register-btn {
+        background-color: #ead27a;
+        border: 1px solid #999;
+        border-radius: 0;
+        color: #111;
+        font-size: 1.5rem;
+    }
+
+    .register-btn:hover {
+        background-color: #e0c766;
+        color: #111;
+    }
+
+    .password-help {
+        font-size: 0.9rem;
+        color: #555;
+        padding-left: 18px;
+    }
+
+    .password-help li {
+        margin-bottom: 4px;
+    }
+</style>
 
 {% endblock %}
