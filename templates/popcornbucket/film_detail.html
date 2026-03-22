@@ -3,7 +3,7 @@
 
 {% block content %}
 
-    <div class="container">
+    <div class="film_container">
         <div class="row justify-content-start">
             <div class="col-6 col-md-4">
                 {% if film.poster %}
@@ -38,7 +38,7 @@
                     <div class="row justify-content-around">
                         <div class="col">
                             <h5><i class="bi bi-star-fill" style="color:gold;"></i>
-                            imdb rating:  
+                            IMDb rating:  
                             {% if film.imdb_rating %}
                                 {{ film.imdb_rating }}/10
                             {% else %}
@@ -49,7 +49,7 @@
                             <h5><i class="bi bi-star-fill" style="color:gold;"></i>
                             popcornbucket rating: 
                             {% if film.avg_rating %}
-                                {{ film.avg_rating|floatformat:0 }}
+                                {{ film.avg_rating|floatformat:0 }}/5
                             {% else %}
                                 no ratings
                             {% endif %}
@@ -61,7 +61,7 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="film_container">
         <h2>Cinemas showing this film</h2>
         <ul>
             {% for cinema in film.cinemas.all %}
@@ -79,7 +79,7 @@
     </div>
     
 
-    <div class="container">
+    <div class="film_container">
 
         <h2>User Reviews</h2>
         {% if request.user.is_authenticated %}
@@ -108,7 +108,7 @@
         {% if reviews %}
             <ul>
                 {% for review in reviews %}
-                <div class="container">
+                <div class="film_container">
                     {% if review.user.userprofile.profile_picture %}
                         <img src="{{ review.user.userprofile.profile_picture.url }}" alt="Avatar" class="review-pfp" >
                     {% else %}
@@ -143,7 +143,7 @@
     </div>
 
     <style>
-        .container {
+        .film_container {
             border: 2px solid #342a2a;
             background-color: #ffffff;
             border-radius: 5px;
@@ -151,7 +151,7 @@
             margin: 16px 0;
         }
 
-        .container::after {
+        .film_container::after {
             content: "";
             clear: both;
             display: table;
@@ -170,17 +170,17 @@
             width: 250px;
         }
 
-        .container span {
+        .film_container span {
             font-size: 20px;
             margin-right: 15px;
         }
 
         @media (max-width: 500px) {
-            .container {
+            .film_container {
                 text-align: center;
             }
 
-            .container img {
+            .film_container img {
                 margin: auto;
                 float: none;
                 display: block;
