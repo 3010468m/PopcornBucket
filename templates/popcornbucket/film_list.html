@@ -9,11 +9,11 @@
 {% endif %}
 
 <!--dropdown sorting options-->
-        <div class="dropdown show">
-            <a class="btn btn-outline-danger dropdown-toggle float-end" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div class="dropdown">
+            <a class="btn btn-outline-danger dropdown-toggle float-end" href="#" role="button" id="dropdownSort" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Sort Films
             </a>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <div class="dropdown-menu" aria-labelledby="dropdownSort">
                 <a class="dropdown-item" href="{% url 'film_list' %}?sort=newest">Newest</a>
                 <a class="dropdown-item" href="{% url 'film_list' %}?sort=oldest">Oldest</a>
                 <a class="dropdown-item" href="{% url 'film_list' %}?sort=most_popular">Most Popular</a>
@@ -23,15 +23,16 @@
         </div>
 
  <!--dropdown filter options-->
-        <div class="dropdown show">
-            <a class="btn btn-outline-danger dropdown-toggle float-end" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div class="dropdown">
+            <a class="btn btn-outline-danger dropdown-toggle float-end" href="#" role="button" id="dropdownFilter" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Filter By Genre
             </a>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <div class="dropdown-menu" aria-labelledby="dropdownFilter">
                 <a class="dropdown-item" href="{% url 'film_list' %}">All Genres</a></li>
                 {% for genre in genres %}
                     <a class="dropdown-item" href="{% url 'film_list' %}?genre={{ genre.id }}">{{ genre.name }}</a>
                 {% endfor %}
+            </div>
         </div>
 
 {% if films %}
