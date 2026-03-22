@@ -23,6 +23,8 @@ class Film(models.Model):
     description = models.TextField()
     poster = models.ImageField(upload_to='film_posters/', blank=True, null=True)
     release_year = models.IntegerField(null=True, blank=True)
+    imdb_id = models.CharField(max_length=20,blank=True,null=True)
+    imdb_rating = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True)
     
     def avg_rating(self):
         return self.review_set.aggregate(Avg('rating'))['rating__avg']

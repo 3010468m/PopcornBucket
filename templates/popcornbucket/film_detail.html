@@ -30,6 +30,25 @@
                     {% endif %}
 
                     <a href="{% url 'film_list' %}?genre={{ film.genre.id }}" ><button type="button" button class="btn btn-outline-dark">{{ film.genre.name }}</button></a>
+                    <div class="mt-3">
+                        <p>
+                            <strong>IMDb rating:</strong>
+                            {% if film.imdb_rating %}
+                                {{ film.imdb_rating }}/10
+                            {% else %}
+                                no rating
+                            {% endif %}
+                        </p>
+
+                        <p>
+                            <strong>Popcorn Bucket rating:</strong>
+                            {% if film.avg_rating %}
+                                {{ film.avg_rating|floatformat:1 }}/10
+                            {% else %}
+                                no ratings yet
+                            {% endif %}
+                        </p>
+                    </div>
                     <div>
                         <br><h4><strong>Released:</strong> {{ film.release_year }}</h4>
                         <p><h4>{{ film.description }}</h4></p>
