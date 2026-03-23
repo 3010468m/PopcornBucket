@@ -130,7 +130,7 @@ def remove_friend(request, user_id):
 
     return redirect('user_profile', user_id=other_user.pk)
 
-#@login_required
+@login_required
 def write_review(request, film_id):
 
     # check movie and user are valid (since they're foreign keys)

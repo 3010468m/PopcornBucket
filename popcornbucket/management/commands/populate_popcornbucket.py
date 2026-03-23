@@ -4,7 +4,6 @@ from datetime import date
 
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.core.files import File
 from django.core.management.base import BaseCommand
 
 from popcornbucket.models import (
@@ -233,11 +232,10 @@ class Command(BaseCommand):
                 film.imdb_rating = film_data["imdb_rating"]
 
             poster_filename = film_data.get("poster")
-            if poster_filename and not film.poster:
-                poster_path = os.path.join(settings.MEDIA_ROOT, "film_posters", poster_filename)
-                if os.path.exists(poster_path):
-                    with open(poster_path, "rb") as f:
-                        film.poster.save(poster_filename, File(f), save=False)
+            if poster_filename:
+                expected_path = os.path.join(settings.MEDIA_ROOT, "film_posters", poster_filename)
+                if os.path.exists(expected_path):
+                    film.poster.name = f"film_posters/{poster_filename}"
 
             film.save()
             created_films[film.title] = film
@@ -332,19 +330,10 @@ class Command(BaseCommand):
             profile.date_of_birth = user_data["date_of_birth"]
 
             profile_picture_filename = user_data.get("profile_picture")
-            if profile_picture_filename and not profile.profile_picture:
-                profile_picture_path = os.path.join(
-                    settings.MEDIA_ROOT,
-                    "profile_pics",
-                    profile_picture_filename,
-                )
-                if os.path.exists(profile_picture_path):
-                    with open(profile_picture_path, "rb") as f:
-                        profile.profile_picture.save(
-                            profile_picture_filename,
-                            File(f),
-                            save=False,
-                        )
+            if profile_picture_filename:
+                expected_path = os.path.join(settings.MEDIA_ROOT, "profile_pics", profile_picture_filename)
+                if os.path.exists(expected_path):
+                    profile.profile_picture.name = f"profile_pics/{profile_picture_filename}"
 
             profile.save()
             created_users[user.username] = user
