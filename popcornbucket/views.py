@@ -236,3 +236,12 @@ def edit_profile(request):
         form = EditProfileForm(instance=profile)
 
     return render(request, 'popcornbucket/edit_profile.html', {'form': form})
+
+def watchlist(request, user_id):
+    watchlist_user = get_object_or_404(User, id=user_id)
+    watchlist, created = Watchlist.objects.get_or_create(user=watchlist_user)
+    films = watchlist.films.all()
+    return render(request, "popcornbucket/watchlist.html", {
+        "watchlist_user": watchlist_user,
+        "films": films,
+    })
