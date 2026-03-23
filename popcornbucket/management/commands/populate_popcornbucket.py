@@ -233,9 +233,12 @@ class Command(BaseCommand):
                 film.imdb_rating = film_data["imdb_rating"]
 
             poster_filename = film_data.get("poster")
-            if poster_filename and not film.poster:
+            if poster_filename:
                 poster_path = os.path.join(settings.MEDIA_ROOT, "film_posters", poster_filename)
                 if os.path.exists(poster_path):
+                    if film.poster:
+                        film.poster.delete(save=False)
+
                     with open(poster_path, "rb") as f:
                         film.poster.save(poster_filename, File(f), save=False)
 
@@ -332,13 +335,17 @@ class Command(BaseCommand):
             profile.date_of_birth = user_data["date_of_birth"]
 
             profile_picture_filename = user_data.get("profile_picture")
-            if profile_picture_filename and not profile.profile_picture:
+            if profile_picture_filename:
                 profile_picture_path = os.path.join(
                     settings.MEDIA_ROOT,
                     "profile_pics",
                     profile_picture_filename,
                 )
+
                 if os.path.exists(profile_picture_path):
+                    if profile.profile_picture:
+                        profile.profile_picture.delete(save=False)
+
                     with open(profile_picture_path, "rb") as f:
                         profile.profile_picture.save(
                             profile_picture_filename,
