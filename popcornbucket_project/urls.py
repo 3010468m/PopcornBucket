@@ -28,7 +28,7 @@ urlpatterns = [
     path('login/', views.login_view, name="login"),
     path('logout/', views.logout_view, name="logout"), 
     path('review/<int:review_id>/vote/', views.vote_review, name='vote_review'), 
-    path("profile/" , views.profile, name = "profile"),
+    path('profile/<int:user_id>/', views.user_profile, name='user_profile'),
     path('review/<int:film_id>', views.write_review, name='write_review'),
 
 ]

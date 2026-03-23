@@ -190,26 +190,12 @@ def logout_view(request):
 
 # User profile 
 @login_required
-def profile(request):
-    profile, created = UserProfile.objects.get_or_create(user=request.user)
-    watchlist, created = Watchlist.objects.get_or_create(user=request.user)
-    films = watchlist.films.all()
-    friends = User.objects.filter(friends_of__user=request.user)
-    reviews = Review.objects.filter(user=request.user).order_by('-created_at')
-    return render(request, "popcornbucket/profile.html", {
-        "user": request.user,
-        "films": films,
-        "friends":friends,
-        "profile": profile,
-        "reviews":reviews,
-    })
-
-@login_required
 def user_profile(request, user_id):
     profile_user = get_object_or_404(User, id=user_id)
     profile, created = UserProfile.objects.get_or_create(user=profile_user)
     watchlist, created = Watchlist.objects.get_or_create(user=profile_user)
     films = watchlist.films.all()
+    friends = User.objects.filter(friends_of__user=request.user)
 
     reviews = Review.objects.filter(user=profile_user).order_by('-created_at')
 
@@ -221,17 +207,18 @@ def user_profile(request, user_id):
         "films": films,
         "reviews": reviews,
         "is_friend": is_friend,
+        "friends":friends,
     })
 
 @login_required
-def edit_profile(request):
+def edit_profile(request, user_id):
     profile, created = UserProfile.objects.get_or_create(user=request.user)
 
     if request.method == 'POST':
         form = EditProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
-            return redirect('profile')
+            return redirect("user_profile", user_id)
     else:
         form = EditProfileForm(instance=profile)
 
