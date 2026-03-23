@@ -41,13 +41,13 @@ def populate():
             {
                 "title": "Superbad",
                 "description": "Two friends try to enjoy one unforgettable night.",
-                "poster_url": "https://example.com/superbad.jpg",
+                "poster": "https://example.com/superbad.jpg",
                 "release_year": 2007,
             },
             {
                 "title": "The Hangover",
                 "description": "Three friends retrace a wild night in Las Vegas.",
-                "poster_url": "https://example.com/hangover.jpg",
+                "poster": "https://example.com/hangover.jpg",
                 "release_year": 2009,
             },
         ],
@@ -55,7 +55,25 @@ def populate():
             {
                 "title": "The Shawshank Redemption",
                 "description": "A banker forms an unlikely friendship in prison.",
-                "poster_url": "https://example.com/shawshank.jpg",
+                "poster": "https://example.com/shawshank.jpg",
+                "release_year": 1994,
+            },
+            {
+                "title": "The Shawshank Redemptio",
+                "description": "A banker forms an unlikely friendship in prison.",
+                "poster": "https://example.com/shawshank.jpg",
+                "release_year": 1994,
+            },
+            {
+                "title": "The Shawshank Redempti",
+                "description": "A banker forms an unlikely friendship in prison.",
+                "poster": "https://example.com/shawshank.jpg",
+                "release_year": 1994,
+            },
+            {
+                "title": "The Shawshank Redemptio",
+                "description": "A banker forms an unlikely friendship in prison.",
+                "poster": "https://example.com/shawshank.jpg",
                 "release_year": 1994,
             }
         ],
@@ -74,7 +92,7 @@ def populate():
                 defaults={
                     "genre": genre,
                     "description": film["description"],
-                    "poster_url": film["poster_url"],
+                    "poster": film["poster"],
                     "release_year": film["release_year"],
                 },
             )
