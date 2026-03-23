@@ -58,24 +58,6 @@ def populate():
                 "poster": "https://example.com/shawshank.jpg",
                 "release_year": 1994,
             },
-            {
-                "title": "The Shawshank Redemptio",
-                "description": "A banker forms an unlikely friendship in prison.",
-                "poster": "https://example.com/shawshank.jpg",
-                "release_year": 1994,
-            },
-            {
-                "title": "The Shawshank Redempti",
-                "description": "A banker forms an unlikely friendship in prison.",
-                "poster": "https://example.com/shawshank.jpg",
-                "release_year": 1994,
-            },
-            {
-                "title": "The Shawshank Redemptio",
-                "description": "A banker forms an unlikely friendship in prison.",
-                "poster": "https://example.com/shawshank.jpg",
-                "release_year": 1994,
-            }
         ],
     }
 
