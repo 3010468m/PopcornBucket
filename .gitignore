@@ -11,8 +11,11 @@ venv/
 env/
 
 # Media files (optional)
-media/
-
+media/*
+!media/film_posters/
+!media/profile_pics/
+!media/film_posters/*
+!media/profile_pics/*
 # Django logs
 *.log
 
