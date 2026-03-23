@@ -32,8 +32,8 @@
                     <a href="{% url 'film_list' %}?genre={{ film.genre.id }}" ><button type="button" button class="btn btn-outline-dark">{{ film.genre.name }}</button></a>
                     
                     <div>
-                        <br><h4><strong>Released:</strong> {{ film.release_year }}</h4>
-                        <p><h4>{{ film.description }}</h4></p>
+                        <br><h5>Released: {{ film.release_year }}</h5>
+                        <p><h5>{{ film.description }}</h5></p>
                     </div>
                     <div class="row justify-content-around">
                         <div class="col">
@@ -144,7 +144,7 @@
 
     <style>
         .film_container {
-            border: 2px solid #342a2a;
+            border: 1px solid #999;
             background-color: #ffffff;
             border-radius: 5px;
             padding: 16px;
