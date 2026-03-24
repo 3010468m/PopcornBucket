@@ -4,59 +4,55 @@
 {% block content %}
 
     <div class="film_container">
-        <div class="row justify-content-start">
-            <div class="col-6 col-md-4">
+        <div class="row align-items-start">
+            <div class="col">
                 {% if film.poster %}
                     <img class="poster-img" src="{{ film.poster.url }}" alt="{{ film.title }}">
-                    {% else %}
-                        <img class="poster-img" src="{% static 'images/NoPosterAvailable.jpg' %}" alt="{{ film.title }}">
-                    {% endif %}
-                    <h1>{{ film.title }}</h1>
+                {% else %}
+                    <img class="poster-img" src="{% static 'images/NoPosterAvailable.jpg' %}" alt="{{ film.title }}">
+                {% endif %}
+                <h1>{{ film.title }}</h1>
             </div>
-            <div class="col-12 col-sm-6 col-md-8">
-                <p>
-                    {% if request.user.is_authenticated %}
-                        {% if in_watchlist %}
-                            <p>
-                                <a href="{% url 'remove_from_watchlist' film.pk %}" class="btn btn-warning float-end">Remove from Watchlist</a>
-                            </p>
-                        {% else %}
-                            <p>
-                                <a href="{% url 'add_to_watchlist' film.pk %}" class="btn btn-danger float-end">Add to Watchlist</a>
-                            </p>
-                        {% endif %}
-                    {% else %}
-                        <p><div class="float-end"><a href="{% url 'login' %}" class="link-secondary">Log in</a> to add this film to your watchlist.</div></p>
-                    {% endif %}
 
-                    <a href="{% url 'film_list' %}?genre={{ film.genre.id }}" ><button type="button" button class="btn btn-outline-dark">{{ film.genre.name }}</button></a>
+            <div class="col">
+                <a href="{% url 'film_list' %}?genre={{ film.genre.id }}" ><button type="button" button class="btn btn-outline-dark">{{ film.genre.name }}</button></a>
+                <br>
+                <br><h4>Released: {{ film.release_year }}</h4>
+                <p><h4>{{ film.description }}</h4></p>
+                <br>
+                <h4><i class="bi bi-star-fill" style="color:gold;"></i>
+                    IMDb rating:  
+                    {% if film.imdb_rating %}
+                        {{ film.imdb_rating }}/10
+                    {% else %}
+                        no rating
+                    {% endif %}</h4>
+                
+                <h4><i class="bi bi-star-fill" style="color:gold;"></i>
+                    popcornbucket rating: 
+                    {% if film.avg_rating %}
+                        {{ film.avg_rating|floatformat:0 }}/5
+                    {% else %}
+                        no ratings
+                    {% endif %}
+                    </h4>
                     
-                    <div>
-                        <br><h4><strong>Released:</strong> {{ film.release_year }}</h4>
-                        <p><h4>{{ film.description }}</h4></p>
-                    </div>
-                    <div class="row justify-content-around">
-                        <div class="col">
-                            <h5><i class="bi bi-star-fill" style="color:gold;"></i>
-                            IMDb rating:  
-                            {% if film.imdb_rating %}
-                                {{ film.imdb_rating }}/10
-                            {% else %}
-                                no rating
-                            {% endif %}</h5>
-                        </div>
-                        <div class="col">
-                            <h5><i class="bi bi-star-fill" style="color:gold;"></i>
-                            popcornbucket rating: 
-                            {% if film.avg_rating %}
-                                {{ film.avg_rating|floatformat:0 }}/5
-                            {% else %}
-                                no ratings
-                            {% endif %}
-                            </h5>
-                        </div>
-                    </div>
-                </p>
+            </div>
+
+            <div class="col">
+                {% if request.user.is_authenticated %}
+                    {% if in_watchlist %}
+                        <p>
+                            <a href="{% url 'remove_from_watchlist' film.pk %}" class="btn btn-warning float-end">Remove from Watchlist</a>
+                        </p>
+                    {% else %}
+                        <p>
+                            <a href="{% url 'add_to_watchlist' film.pk %}" class="btn btn-danger float-end">Add to Watchlist</a>
+                        </p>
+                    {% endif %}
+                {% else %}
+                    <p><div class="float-end"><a href="{% url 'login' %}" class="link-secondary">Log in</a> to add this film to your watchlist.</div></p>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -144,10 +140,10 @@
 
     <style>
         .film_container {
-            border: 2px solid #342a2a;
+            border: 1px solid #999;
             background-color: #ffffff;
             border-radius: 5px;
-            padding: 16px;
+            padding: 50px;
             margin: 16px 0;
         }
 
