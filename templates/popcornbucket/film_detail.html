@@ -2,226 +2,144 @@
 {% load static %}
 
 {% block content %}
+<div class="container">
+    <div class="row align-items-center">
 
-    <div class="film_container">
-        <div class="row align-items-start">
-            <div class="col">
-                {% if film.poster %}
-                    <img class="poster-img" src="{{ film.poster.url }}" alt="{{ film.title }}">
-                {% else %}
-                    <img class="poster-img" src="{% static 'images/NoPosterAvailable.jpg' %}" alt="{{ film.title }}">
-                {% endif %}
-                <h1>{{ film.title }}</h1>
-            </div>
-
-            <div class="col">
-                <a href="{% url 'film_list' %}?genre={{ film.genre.id }}" ><button type="button" button class="btn btn-outline-dark">{{ film.genre.name }}</button></a>
-                <br>
-                <br><h4>Released: {{ film.release_year }}</h4>
-                <p><h4>{{ film.description }}</h4></p>
-                <br>
-                <h4><i class="bi bi-star-fill" style="color:gold;"></i>
-                    IMDb rating:  
-                    {% if film.imdb_rating %}
-                        {{ film.imdb_rating }}/10
+        <div class="film_container">
+            <div class="row align-items-start">
+                <div class="col">
+                    {% if film.poster %}
+                        <img class="poster-img" src="{{ film.poster.url }}" alt="{{ film.title }}">
                     {% else %}
-                        no rating
-                    {% endif %}</h4>
-                
-                <h4><i class="bi bi-star-fill" style="color:gold;"></i>
-                    popcornbucket rating: 
-                    {% if film.avg_rating %}
-                        {{ film.avg_rating|floatformat:0 }}/5
-                    {% else %}
-                        no ratings
+                        <img class="poster-img" src="{% static 'images/NoPosterAvailable.jpg' %}" alt="{{ film.title }}">
                     {% endif %}
-                    </h4>
-                    
-            </div>
-
-            <div class="col">
-                {% if request.user.is_authenticated %}
-                    {% if in_watchlist %}
-                        <p>
-                            <a href="{% url 'remove_from_watchlist' film.pk %}" class="btn btn-warning float-end">Remove from Watchlist</a>
-                        </p>
-                    {% else %}
-                        <p>
-                            <a href="{% url 'add_to_watchlist' film.pk %}" class="btn btn-danger float-end">Add to Watchlist</a>
-                        </p>
-                    {% endif %}
-                {% else %}
-                    <p><div class="float-end"><a href="{% url 'login' %}" class="link-secondary">Log in</a> to add this film to your watchlist.</div></p>
-                {% endif %}
-            </div>
-        </div>
-    </div>
-
-    <div class="film_container">
-        <h2>Cinemas showing this film</h2>
-        <ul>
-            {% for cinema in film.cinemas.all %}
-                <li>
-                    <strong>{{ cinema.name }}</strong>
-                    {% if cinema.location %} - {{ cinema.location }}{% endif %}
-                    {% if cinema.website %} -
-                        <a href="{{ cinema.website }}" target="_blank" rel="noopener noreferrer">Book tickets</a>
-                    {% endif %}
-                </li>
-            {% empty %}
-                <li>No cinemas currently showing this film.</li>
-            {% endfor %}
-        </ul>
-    </div>
-    
-
-    <div class="film_container">
-
-        <h2>User Reviews</h2>
-        {% if request.user.is_authenticated %}
-            <a href="{% url 'write_review' film.id %}"><button type="button" button class="btn btn-danger float-start">Leave a review</button></a>
-        {% else %}
-            <a href="{% url 'login' %}">Log in</a> to Leave a Review<br>
-        {% endif %}
-
-        <!--dropdown sorting options-->
-        <div class="dropdown show">
-            <a class="btn btn-outline-danger dropdown-toggle float-end" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Sort Reviews
-            </a>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <a class="dropdown-item" href="{% url 'film_detail' film.id %}?sort=newest">Newest</a>
-                <a class="dropdown-item" href="{% url 'film_detail' film.id %}?sort=oldest">Oldest</a>
-                <a class="dropdown-item" href="{% url 'film_detail' film.id %}?sort=most_popular">Most Popular</a>
-                <hr class="dropdown-divider">
-                <a class ="dropdown-item" href="{% url 'film_detail' film.id %}">Clear Sorting</a>
-            </div>
-        </div>
-        
-        <br>
-
-        <!-- display all reviews for film-->
-        {% if reviews %}
-            <ul>
-                {% for review in reviews %}
-                <div class="film_container">
-                    {% if review.user.userprofile.profile_picture %}
-                        <img src="{{ review.user.userprofile.profile_picture.url }}" alt="Avatar" class="review-pfp" >
-                    {% else %}
-                        <img src="{% static 'images/no_pfp.jpg' %}" alt="Avatar" class="review-pfp">
-                    {% endif %}
-                    <p>
-                        <a href="{% url 'user_profile' review.user.pk %}" class="link-secondary">
-                            {{ review.user.username }}
-                        </a>
-                        {{ review.rating }} stars
-                    </p>
-                    <p>{{ review.review_text }}.</p>
-
-                    <!-- up or down vote reviews -->
-
-                    <div class="d-flex gap-2 mt-2">
-                        <button class="btn btn-outline-danger btn-sm vote-btn" data-review-id="{{ review.id }}" data-vote="up">
-                            <i class="bi bi-caret-up-fill"></i><span id="up-{{ review.id }}"> {{ review.up_votes }}</span>
-                        </button>
-
-                        <button class="btn btn-outline-danger btn-sm vote-btn" data-review-id="{{ review.id }}" data-vote="down">
-                            <i class="bi bi-caret-down-fill"></i><span id="down-{{ review.id }}"> {{ review.down_votes }}</span>
-                        </button>
-                    </div>
+                    <h1>{{ film.title }}</h1>
                 </div>
-                </p>
+
+                <div class="col">
+                    <a href="{% url 'film_list' %}?genre={{ film.genre.id }}" ><button type="button" button class="btn btn-outline-dark">{{ film.genre.name }}</button></a>
+                    <br>
+                    <br><h4>Released: {{ film.release_year }}</h4>
+                    <p><h4>{{ film.description }}</h4></p>
+                    <br>
+                    <h4><i class="bi bi-star-fill" style="color:gold;"></i>
+                        IMDb rating:  
+                        {% if film.imdb_rating %}
+                            {{ film.imdb_rating }}/10
+                        {% else %}
+                            no rating
+                        {% endif %}</h4>
+                    
+                    <h4><i class="bi bi-star-fill" style="color:gold;"></i>
+                        Popcorn Bucket rating: 
+                        {% if film.avg_rating %}
+                            {{ film.avg_rating|floatformat:0 }}/5
+                        {% else %}
+                            no ratings
+                        {% endif %}
+                        </h4>
+                        
+                </div>
+
+                <div class="col">
+                    {% if request.user.is_authenticated %}
+                        {% if in_watchlist %}
+                            <p>
+                                <a href="{% url 'remove_from_watchlist' film.pk %}" class="btn btn-warning float-end">Remove from Watchlist</a>
+                            </p>
+                        {% else %}
+                            <p>
+                                <a href="{% url 'add_to_watchlist' film.pk %}" class="btn btn-danger float-end">Add to Watchlist</a>
+                            </p>
+                        {% endif %}
+                    {% else %}
+                        <p><div class="float-end"><a href="{% url 'login' %}" class="link-secondary">Log in</a> to add this film to your watchlist.</div></p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="film_container">
+            <h2>Cinemas showing this film</h2>
+            <ul>
+                {% for cinema in film.cinemas.all %}
+                    <li>
+                        <strong>{{ cinema.name }}</strong>
+                        {% if cinema.location %} - {{ cinema.location }}{% endif %}
+                        {% if cinema.website %} -
+                            <a href="{{ cinema.website }}" target="_blank" rel="noopener noreferrer">Book tickets</a>
+                        {% endif %}
+                    </li>
+                {% empty %}
+                    <li>No cinemas currently showing this film.</li>
                 {% endfor %}
             </ul>
-        {% else %}
-            <strong><br>There are no reviews yet.</strong><br>
-        {% endif %}
+        </div>
+
+        <div class="film_container">
+
+            <h2>User Reviews</h2>
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'write_review' film.id %}"><button type="button" button class="btn btn-danger float-start">Leave a review</button></a>
+            {% else %}
+                <a href="{% url 'login' %}">Log in</a> to Leave a Review<br>
+            {% endif %}
+
+            <!--dropdown sorting options-->
+            <div class="dropdown show">
+                <a class="btn btn-outline-danger dropdown-toggle float-end" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Sort Reviews
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" href="{% url 'film_detail' film.id %}?sort=newest">Newest</a>
+                    <a class="dropdown-item" href="{% url 'film_detail' film.id %}?sort=oldest">Oldest</a>
+                    <a class="dropdown-item" href="{% url 'film_detail' film.id %}?sort=most_popular">Most Popular</a>
+                    <hr class="dropdown-divider">
+                    <a class ="dropdown-item" href="{% url 'film_detail' film.id %}">Clear Sorting</a>
+                </div>
+            </div>
+        <br>
+        <br>
+            <!-- display all reviews for film-->
+            {% if reviews %}
+                <ul>
+                    {% for review in reviews %}
+                    <div class="film_container">
+                        {% if review.user.userprofile.profile_picture %}
+                            <img src="{{ review.user.userprofile.profile_picture.url }}" alt="Avatar" class="review-pfp" >
+                        {% else %}
+                            <img src="{% static 'images/no_pfp.jpg' %}" alt="Avatar" class="review-pfp">
+                        {% endif %}
+                        <p>
+                            <a href="{% url 'user_profile' review.user.pk %}" class="link-secondary">
+                                {{ review.user.username }}
+                            </a>
+                            {{ review.rating }} stars
+                        </p>
+                        <p>{{ review.review_text }}.</p>
+
+                        <!-- up or down vote reviews -->
+
+                        <div class="d-flex gap-2 mt-2">
+                            <button class="btn btn-outline-danger btn-sm vote-btn" data-review-id="{{ review.id }}" data-vote="up">
+                                <i class="bi bi-caret-up-fill"></i><span id="up-{{ review.id }}"> {{ review.up_votes }}</span>
+                            </button>
+
+                            <button class="btn btn-outline-danger btn-sm vote-btn" data-review-id="{{ review.id }}" data-vote="down">
+                                <i class="bi bi-caret-down-fill"></i><span id="down-{{ review.id }}"> {{ review.down_votes }}</span>
+                            </button>
+                        </div>
+                    </div>
+                    </p>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <strong><br>There are no reviews yet.</strong><br>
+            {% endif %}
     </div>
-
-    <style>
-        .film_container {
-            border: 1px solid #999;
-            background-color: #ffffff;
-            border-radius: 5px;
-            padding: 50px;
-            margin: 16px 0;
-        }
-
-        .film_container::after {
-            content: "";
-            clear: both;
-            display: table;
-        }
-
-        .review-pfp {
-            float: left;
-            margin-right: 20px;
-            border-radius: 50%;
-            width: 70px;
-            height: 70px;
-        }
-
-        .poster-img {
-            border-radius: 0;
-            width: 250px;
-        }
-
-        .film_container span {
-            font-size: 20px;
-            margin-right: 15px;
-        }
-
-        @media (max-width: 500px) {
-            .film_container {
-                text-align: center;
-            }
-
-            .film_container img {
-                margin: auto;
-                float: none;
-                display: block;
-            }
-        }
-    </style>
-
-    <a href="{% url 'film_list' %}" class="link-secondary">Back to film list</a>
-
-    <script>
-    document.querySelectorAll('.vote-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const reviewId = this.dataset.reviewId;
-            const voteType = this.dataset.vote;
-
-            fetch(`/review/${reviewId}/vote/`, {
-                method: "POST",
-                headers: {
-                    "X-CSRFToken": getCookie("csrftoken"),
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    vote_type: voteType
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById(`up-${reviewId}`).innerText = data.up_votes;
-                document.getElementById(`down-${reviewId}`).innerText = data.down_votes;
-            });
-        });
-    });
-
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== "") {
-            document.cookie.split(";").forEach(cookie => {
-                const trimmed = cookie.trim();
-                if (trimmed.startsWith(name + "=")) {
-                    cookieValue = decodeURIComponent(trimmed.substring(name.length + 1));
-                }
-            });
-        }
-        return cookieValue;
-    }
-    </script>
+</div>
+    <div class="container">
+        <a href="{% url 'film_list' %}" class="link-secondary">Back to film list</a>
+    </div>
 
 {% endblock %}
