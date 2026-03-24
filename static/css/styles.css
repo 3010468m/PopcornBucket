@@ -22,11 +22,23 @@ nav a:hover {
 
 main {
     padding: 20px;
+    margin-top: 80px; /* fixes navbar overlap */
 }
 
-.site-title a {
+.site-title {
     color: white;
     text-decoration: none;
+    font-size: 2.2rem;
+    font-weight: 600;
+}
+
+.site-title:hover,
+.site-title:focus,
+.site-title:active {
+    color: white;
+    text-decoration: none;
+    box-shadow: none;
+    outline: none;
 }
 
 .navbar-toggler {
