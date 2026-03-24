@@ -13,9 +13,14 @@ main { padding: 20px; }
 
 /* write_review classes */
 .star-rating {
-    direction: rtl;
-    display: inline-block;
+    display: inline-flex;
+    flex-direction: row-reverse;
+    gap: 5px;
     cursor: pointer;
+}
+
+.rating-card {
+  text-align: left;
 }
 
 .star-rating input {
