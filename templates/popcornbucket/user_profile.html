@@ -110,7 +110,10 @@
                         </div>
 
                         <div class="flex-grow-1">
-                            <div class="review-username mb-1">{{ review.user.username }} - {{ review.film }}</div>
+                            <div class="review-username mb-1">{{ review.user.username }} - <a href="{% url 'film_detail' review.film.id %}" 
+                            style="color:black;text-decoration:none;">
+                            {{ review.film }}
+                            </a></div>
                             <div class="review-text mb-2">{{ review.review_text }}</div>
 
                             <div class="review-votes d-flex gap-4">
