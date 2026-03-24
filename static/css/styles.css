@@ -295,4 +295,12 @@ label {
     object-fit: cover;
 }
 
+/* header classes */
+
+.logo-img {
+    border-radius: 0;
+    width: 55px;
+    margin-top: -20px;
+    margin-bottom: -20px;
+}
 
