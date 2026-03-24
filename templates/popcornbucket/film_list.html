@@ -38,16 +38,16 @@
 {% if films %}
     <ul>
     {% for film in films %}
-        <div class="row justify-content-start mb-4">
-            <div class="col-6 col-md-4">
-                {% if film.poster %}
-                    <img class="poster-img" src="{{ film.poster.url }}" alt="{{ film.title }}">
-                {% else %}
-                    <img class="poster-img" src="{% static 'images/NoPosterAvailable.jpg' %}" alt="{{ film.title }}">
-                {% endif %}
+    <div class="container">
+        <div class="row justify-content-start">
+            <div class="col-4">
+            {% if film.poster %}
+                <img class="poster-img" src="{{ film.poster.url }}" alt="{{ film.title }}">
+            {% else %}
+                <img class="poster-img" src="{% static 'images/NoPosterAvailable.jpg' %}" alt="{{ film.title }}">
+            {% endif %}
             </div>
-
-            <div class="col-12 col-sm-6 col-md-8">
+            <div class="col-4">
                 <h3>
                     <a class="link-underline link-underline-opacity-0" 
                     href="{% url 'film_detail' film.id %}" 
@@ -87,8 +87,8 @@
                 </a>
             </div>
         </div>
+    </div>
     {% endfor %}
-    </ul>
 {% else %}
         <p>No films found.</p>
 {% endif %}
@@ -96,7 +96,7 @@
 <style>
     .poster-img {
             border-radius: 0;
-            width: 130px;
+            width: 180px;
             margin-bottom: 25px;
         }
 </style>

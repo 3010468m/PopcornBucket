@@ -5,81 +5,83 @@
     <meta name="viewport" content=""width=device-width, initial-scale="1"/>
 </head>
 <title>Write a Review</title>
-
 {% block content %}
     <h1>Write a Review for {{ film.title }} ({{ film.release_year }})</h1>
-
-    <body>
-        <div>
-            {% if film.poster %}
-                <img src="{{ film.poster.url }}" alt="{{ film.title }}" width="200">
-            {% endif %}
-
-            {% if request.user.is_authenticated %}
-                <form id="write_review_form" method="post" action ="{% url 'write_review' film.id %}">
+    <br><br><br>
+    <div class="container text">
+        <div class="row justify-content-start">
+            <div class="col-4">
+                {% if film.poster %}
+                    <img src="{{ film.poster.url }}" alt="{{ film.title }}" width="300">
+                {% endif %}
+            </div>
+            <div class="col-4">
+                {% if request.user.is_authenticated %}
+                    <form id="write_review_form" method="post" action="{% url 'write_review' film.id %}">
                     {% csrf_token %}
-                    <div class="col-md-6">
-                        <div class="rating-card p-4">
-                            <h5 class="mb-4">Rate {{ film.title }} out of 5</h5>
-                            <div class="star-rating animated-stars">
-                                <input type="radio" id="star5" name="rating" value="5">
-                                <label for="star5" class="bi bi-star-fill"></label>
-                                <input type="radio" id="star4" name="rating" value="4">
-                                <label for="star4" class="bi bi-star-fill"></label>
-                                <input type="radio" id="star3" name="rating" value="3">
-                                <label for="star3" class="bi bi-star-fill"></label>
-                                <input type="radio" id="star2" name="rating" value="2">
-                                <label for="star2" class="bi bi-star-fill"></label>
-                                <input type="radio" id="star1" name="rating" value="1">
-                                <label for="star1" class="bi bi-star-fill"></label>
-                            </div>
-                            <p class="text-muted mt-2">Click to rate</p>
+
+                    <div class="rating-card p-4">
+                        <h5 class="mb-4">Rate {{ film.title }} out of 5</h5>
+
+                        <div class="star-rating animated-stars">
+                            <input type="radio" id="star5" name="rating" value="5">
+                            <label for="star5" class="bi bi-star-fill"></label>
+
+                            <input type="radio" id="star4" name="rating" value="4">
+                            <label for="star4" class="bi bi-star-fill"></label>
+
+                            <input type="radio" id="star3" name="rating" value="3">
+                            <label for="star3" class="bi bi-star-fill"></label>
+
+                            <input type="radio" id="star2" name="rating" value="2">
+                            <label for="star2" class="bi bi-star-fill"></label>
+
+                            <input type="radio" id="star1" name="rating" value="1">
+                            <label for="star1" class="bi bi-star-fill"></label>
                         </div>
+
+                        <p class="text-muted mt-2">Click to rate</p>
                     </div>
 
-                    <style>
-                        .star-rating {
-                            direction: rtl;
-                            display: inline-block;
-                            cursor: pointer;
-                        }
-
-                        .star-rating input {
-                            display: none;
-                        }
-
-                        .star-rating label {
-                            color: #ddd;
-                            font-size: 24px;
-                            padding: 0 2px;
-                            cursor: pointer;
-                            transition: all 0.2s ease;
-                        }
-
-                        .star-rating label:hover,
-                        .star-rating label:hover~label,
-                        .star-rating input:checked~label {
-                            color: #ffc107;
-                        }
-                    </style>
-
-                    <!-- display text box with input name = "review_text" to match form field -->
-                    <div class="form-group">
+                    <div class="form-group mt-3">
                         <label for="review_text">Leave your Review:</label>
                         <textarea class="form-control" rows="5" id="review_text" name="review_text"></textarea>
                     </div>
-                    <br>
-                    <button type="submit" class="btn btn-danger">Submit Review</button>
-                </form>
+                    <button type="submit" class="btn btn-danger mt-3">Submit Review</button>
+                    </form>
+            </div>
+            <style>
+                .star-rating {
+                    direction: rtl;
+                    display: inline-block;
+                    cursor: pointer;
+                }
 
+                .star-rating input {
+                    display: none;
+                }
+
+                .star-rating label {
+                    color: #ddd;
+                    font-size: 40px;
+                    padding: 0 2px;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                }
+
+                .star-rating label:hover,
+                .star-rating label:hover~label,
+                .star-rating input:checked~label {
+                    color: #ffc107;
+                }
+            </style>
                     
-            {% else %}
-                <div>
-                    <p>You must <a href="{% url 'login' %}" class="link-danger">Login</a> to leave a review.</p>
-                </div>
-            {% endif %}
+                {% else %}
+                    <div>
+                        <p>You must <a href="{% url 'login' %}" class="link-danger">Login</a> to leave a review.</p>
+                    </div>
+                {% endif %}
         </div>
-
         
         <script>
             /* set star buttons to rating field in form */
