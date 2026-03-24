@@ -120,6 +120,18 @@
 
                         <!-- up or down vote reviews -->
 
+                        {% if review.user == request.user %}
+                        <div class="d-flex gap-2 mt-2">
+                            <button class="btn btn-outline-danger btn-sm vote-btn disabled" tabindex="-1" role="button" aria-disabled="true" data-review-id="{{ review.id }}" data-vote="up">
+                                <i class="bi bi-caret-up-fill"></i><span id="up-{{ review.id }}"> {{ review.up_votes }}</span>
+                            </button>
+
+                            <button class="btn btn-outline-danger btn-sm vote-btn disabled" tabindex="-1" role="button" aria-disabled="true" data-review-id="{{ review.id }}" data-vote="down">
+                                <i class="bi bi-caret-down-fill"></i><span id="down-{{ review.id }}"> {{ review.down_votes }}</span>
+                            </button>
+                        </div>
+
+                        {% else %}
                         <div class="d-flex gap-2 mt-2">
                             <button class="btn btn-outline-danger btn-sm vote-btn" data-review-id="{{ review.id }}" data-vote="up">
                                 <i class="bi bi-caret-up-fill"></i><span id="up-{{ review.id }}"> {{ review.up_votes }}</span>
@@ -129,6 +141,7 @@
                                 <i class="bi bi-caret-down-fill"></i><span id="down-{{ review.id }}"> {{ review.down_votes }}</span>
                             </button>
                         </div>
+                        {% endif %}
                     </div>
                     </p>
                     {% endfor %}
