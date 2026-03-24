@@ -1,23 +1,23 @@
 {% extends "popcornbucket/base.html" %}
 {% load static %}
 
-<head>
-    <meta name="viewport" content=""width=device-width, initial-scale="1"/>
-</head>
-<title>Write a Review</title>
 {% block content %}
-    <h1>Write a Review for {{ film.title }} ({{ film.release_year }})</h1>
-    <br><br><br>
-    <div class="container text">
-        <div class="row justify-content-start">
-            <div class="col-4">
-                {% if film.poster %}
-                    <img src="{{ film.poster.url }}" alt="{{ film.title }}" width="300">
-                {% endif %}
-            </div>
-            <div class="col-4">
-                {% if request.user.is_authenticated %}
-                    <form id="write_review_form" method="post" action="{% url 'write_review' film.id %}">
+<h1>Write a Review for {{ film.title }} ({{ film.release_year }})</h1>
+<br><br><br>
+
+<div class="container">
+    <div class="row justify-content-start">
+        <div class="col-4">
+            {% if film.poster %}
+                <img src="{{ film.poster.url }}" alt="{{ film.title }}" class="review-film-poster">
+            {% else %}
+                <img src="{% static 'images/NoPosterAvailable.jpg' %}" alt="{{ film.title }}" class="review-film-poster">
+            {% endif %}
+        </div>
+
+        <div class="col-4">
+            {% if request.user.is_authenticated %}
+                <form id="write_review_form" method="post" action="{% url 'write_review' film.id %}">
                     {% csrf_token %}
 
                     <div class="rating-card p-4">
@@ -47,16 +47,15 @@
                         <label for="review_text">Leave your Review:</label>
                         <textarea class="form-control" rows="5" id="review_text" name="review_text"></textarea>
                     </div>
+
                     <button type="submit" class="btn btn-danger mt-3">Submit Review</button>
-                    </form>
-            </div>  
-                {% else %}
-                    <div>
-                        <p>You must <a href="{% url 'login' %}" class="link-danger">Login</a> to leave a review.</p>
-                    </div>
-                {% endif %}
+                </form>
+            {% else %}
+                <div>
+                    <p>You must <a href="{% url 'login' %}" class="link-danger">Login</a> to leave a review.</p>
+                </div>
+            {% endif %}
         </div>
-
-    </body>
+    </div>
+</div>
 {% endblock %}
-
