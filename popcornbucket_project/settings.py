@@ -128,3 +128,4 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = MEDIA_DIR
 LOGIN_REDIRECT_URL = '/profile/'
 LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = '/login/'
