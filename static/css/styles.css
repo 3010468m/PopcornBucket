@@ -1,7 +1,7 @@
 body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-header { background: #ce1b1b; color: white; padding: 15px; }
+header { background: #ce1b1b; color: white; padding: 20px; } 
 nav a { color: white; margin-right: 15px; text-decoration: none; }
-nav a:hover { text-decoration: underline; }
+nav a:hover { text-decoration: underline; } */
 main { padding: 20px; }
 
 /* container: central */
@@ -294,3 +294,5 @@ label {
     height: 18vw;
     object-fit: cover;
 }
+
+
