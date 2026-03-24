@@ -3,93 +3,94 @@
 
 {% block content %}
 
-<h1>Film List</h1>
-{% if query %}
-    <p>Showing results for "<strong>{{ query }}</strong>"</p>
-{% endif %}
+<div class="container-basic">
 
-<!--dropdown sorting options-->
-        <div class="dropdown">
-            <a class="btn btn-outline-danger dropdown-toggle float-end" href="#" role="button" id="dropdownSort" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Sort Films
-            </a>
-            <div class="dropdown-menu" aria-labelledby="dropdownSort">
-                <a class="dropdown-item" href="{% url 'film_list' %}?sort=newest">Newest</a>
-                <a class="dropdown-item" href="{% url 'film_list' %}?sort=oldest">Oldest</a>
-                <a class="dropdown-item" href="{% url 'film_list' %}?sort=most_popular">Most Popular</a>
-                <hr class="dropdown-divider">
-                <a class ="dropdown-item" href="{% url 'film_list' %}">Clear Sorting</a>
-            </div>
-        </div>
+    <h1>Film List</h1>
+    {% if query %}
+        <p>Showing results for "<strong>{{ query }}</strong>"</p>
+    {% endif %}
 
- <!--dropdown filter options-->
-        <div class="dropdown">
-            <a class="btn btn-outline-danger dropdown-toggle float-end" href="#" role="button" id="dropdownFilter" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Filter By Genre
-            </a>
-            <div class="dropdown-menu" aria-labelledby="dropdownFilter">
-                <a class="dropdown-item" href="{% url 'film_list' %}">All Genres</a></li>
-                {% for genre in genres %}
-                    <a class="dropdown-item" href="{% url 'film_list' %}?genre={{ genre.id }}">{{ genre.name }}</a>
-                {% endfor %}
-            </div>
-        </div>
-
-{% if films %}
-    <ul>
-    {% for film in films %}
-    <div class="container">
-        <div class="row justify-content-start">
-            <div class="col-4">
-            {% if film.poster %}
-                <img class="fl-poster-img" src="{{ film.poster.url }}" alt="{{ film.title }}">
-            {% else %}
-                <img class="fl-poster-img" src="{% static 'images/NoPosterAvailable.jpg' %}" alt="{{ film.title }}">
-            {% endif %}
-            </div>
-            <div class="col-4">
-                <h3>
-                    <a class="link-underline link-underline-opacity-0" 
-                    href="{% url 'film_detail' film.id %}" 
-                    style="color:black">
-                    {{ film.title }}
-                    </a>
-                </h3>
-
-                <!-- IMDb rating -->
-                <h5>
-                    <i class="bi bi-star-fill" style="color:gold;"></i>
-                    IMDb rating:
-                    {% if film.imdb_rating %}
-                        {{ film.imdb_rating|floatformat:1 }}/10
-                    {% else %}
-                        no rating
-                    {% endif %}
-                </h5>
-
-                <!-- PopcornBucket rating -->
-                <h5>
-                    <i class="bi bi-star-fill" style="color:gold;"></i>
-                    Popcorn Bucket rating:
-                    {% if film.avg_rating %}
-                        {{ film.avg_rating|floatformat:1 }}/5
-                    {% else %}
-                        no ratings
-                    {% endif %}
-                </h5>
-
-                <br>
-
-                <a href="{% url 'film_list' %}?genre={{ film.genre.id }}">
-                    <button type="button" class="btn btn-outline-dark">
-                        {{ film.genre.name }}
-                    </button>
+    <!--dropdown sorting options-->
+            <div class="dropdown">
+                <a class="btn btn-outline-danger dropdown-toggle float-end" href="#" role="button" id="dropdownSort" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Sort Films
                 </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownSort">
+                    <a class="dropdown-item" href="{% url 'film_list' %}?sort=newest">Newest</a>
+                    <a class="dropdown-item" href="{% url 'film_list' %}?sort=oldest">Oldest</a>
+                    <a class="dropdown-item" href="{% url 'film_list' %}?sort=most_popular">Most Popular</a>
+                    <hr class="dropdown-divider">
+                    <a class ="dropdown-item" href="{% url 'film_list' %}">Clear Sorting</a>
+                </div>
+            </div>
+
+    <!--dropdown filter options-->
+            <div class="dropdown">
+                <a class="btn btn-outline-danger dropdown-toggle float-end" href="#" role="button" id="dropdownFilter" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Filter By Genre
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownFilter">
+                    <a class="dropdown-item" href="{% url 'film_list' %}">All Genres</a></li>
+                    {% for genre in genres %}
+                        <a class="dropdown-item" href="{% url 'film_list' %}?genre={{ genre.id }}">{{ genre.name }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+
+    {% if films %}
+        <ul>
+        {% for film in films %}
+        <div class="container">
+            <div class="row justify-content-start">
+                <div class="col-4">
+                {% if film.poster %}
+                    <img class="fl-poster-img" src="{{ film.poster.url }}" alt="{{ film.title }}">
+                {% else %}
+                    <img class="fl-poster-img" src="{% static 'images/NoPosterAvailable.jpg' %}" alt="{{ film.title }}">
+                {% endif %}
+                </div>
+                <div class="col-4">
+                    <h3>
+                        <a href="{% url 'film_detail' film.id %}" style="color:black;text-decoration:none;">
+                        {{ film.title }}
+                        </a>
+                    </h3>
+
+                    <!-- IMDb rating -->
+                    <h5>
+                        <i class="bi bi-star-fill" style="color:gold;"></i>
+                        IMDb rating:
+                        {% if film.imdb_rating %}
+                            {{ film.imdb_rating|floatformat:1 }}/10
+                        {% else %}
+                            no rating
+                        {% endif %}
+                    </h5>
+
+                    <!-- PopcornBucket rating -->
+                    <h5>
+                        <i class="bi bi-star-fill" style="color:gold;"></i>
+                        Popcorn Bucket rating:
+                        {% if film.avg_rating %}
+                            {{ film.avg_rating|floatformat:1 }}/5
+                        {% else %}
+                            no ratings
+                        {% endif %}
+                    </h5>
+
+                    <br>
+
+                    <a href="{% url 'film_list' %}?genre={{ film.genre.id }}">
+                        <button type="button" class="btn btn-outline-dark">
+                            {{ film.genre.name }}
+                        </button>
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
-    {% endfor %}
-{% else %}
-        <p>No films found.</p>
-{% endif %}
+        {% endfor %}
+    {% else %}
+            <p>No films found.</p>
+    {% endif %}
+</div>
 {% endblock %}

@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<div class="container" styl>
+<div class="container">
     <div class="row align-items-center">
 
         <div class="film_container">
@@ -138,7 +138,9 @@
             {% endif %}
     </div>
 </div>
-    <a href="{% url 'film_list' %}" class="link-secondary">Back to film list</a>
+    <div class="container-basic">
+        <a href="{% url 'film_list' %}" class="link-secondary">Back to film list</a>
+    </div>
 
     <script>
     document.querySelectorAll('.vote-btn').forEach(button => {

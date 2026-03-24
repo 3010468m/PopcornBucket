@@ -4,6 +4,13 @@ nav a { color: white; margin-right: 15px; text-decoration: none; }
 nav a:hover { text-decoration: underline; }
 main { padding: 20px; }
 
+/* container: central */
+.container-basic{
+  max-width: 1050px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* write_review classes */
 .star-rating {
     direction: rtl;
@@ -135,7 +142,7 @@ input {
 
 .register-btn {
     background-color: #ead27a;
-    border: 1px solid #999;
+    border: 1px solid #bbb;
     border-radius: 0;
     color: #111;
     font-size: 1.5rem;
@@ -199,7 +206,7 @@ input {
 
 /* film_detail classes */
 .film_container {
-    border: 1px solid #999;
+    border: 1px solid #bbb;
     background-color: #ffffff;
     border-radius: 5px;
     padding: 50px;
@@ -275,4 +282,10 @@ input[type="date"] {
 label {
     display: block;
     margin-bottom: 5px;
+}
+
+/* homepage classes */
+.card-img-top {
+    height: 18vw;
+    object-fit: cover;
 }
