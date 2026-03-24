@@ -14,17 +14,15 @@
     <nav class="navbar navbar-dark fixed-top bg-danger">
         <div class="container-fluid">
 
-            <!-- SITE TITLE (NOW CLICKABLE) -->
-            <a class="navbar-brand site-title" href="{% url 'homepage' %}">
-                Popcorn Bucket
+            <a class="navbar-brand site-title d-flex align-items-center" href="{% url 'homepage' %}">
+                <img src="{% static 'images/PopcornBucket_logo.png' %}" class="logo-img" alt="Site Logo">
+                <span>Popcorn Bucket</span>
             </a>
 
-            <!-- MENU BUTTON -->
             <button class="btn navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                 <i class="bi bi-list text-white fs-1"></i>
             </button>
 
-            <!-- OFFCANVAS MENU -->
             <div class="offcanvas offcanvas-end bg-danger text-white" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                 <div class="offcanvas-header">
                     <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
@@ -33,7 +31,6 @@
 
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'homepage' %}">Home</a>
                         </li>
@@ -57,7 +54,6 @@
                             <a class="nav-link" href="{% url 'login' %}">Login</a>
                         </li>
                         {% endif %}
-
                     </ul>
                 </div>
             </div>
@@ -66,7 +62,7 @@
     </nav>
 </header>
 
-<main style="margin-top: 80px;">
+<main>
     {% block content %}
     {% endblock %}
 </main>
