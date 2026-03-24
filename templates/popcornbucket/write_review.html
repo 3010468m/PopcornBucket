@@ -49,33 +49,7 @@
                     </div>
                     <button type="submit" class="btn btn-danger mt-3">Submit Review</button>
                     </form>
-            </div>
-            <style>
-                .star-rating {
-                    direction: rtl;
-                    display: inline-block;
-                    cursor: pointer;
-                }
-
-                .star-rating input {
-                    display: none;
-                }
-
-                .star-rating label {
-                    color: #ddd;
-                    font-size: 40px;
-                    padding: 0 2px;
-                    cursor: pointer;
-                    transition: all 0.2s ease;
-                }
-
-                .star-rating label:hover,
-                .star-rating label:hover~label,
-                .star-rating input:checked~label {
-                    color: #ffc107;
-                }
-            </style>
-                    
+            </div>  
                 {% else %}
                     <div>
                         <p>You must <a href="{% url 'login' %}" class="link-danger">Login</a> to leave a review.</p>

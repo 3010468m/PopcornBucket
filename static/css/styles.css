@@ -1,0 +1,30 @@
+body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+header { background: #ce1b1b; color: white; padding: 15px; }
+nav a { color: white; margin-right: 15px; text-decoration: none; }
+nav a:hover { text-decoration: underline; }
+main { padding: 20px; }
+
+
+.star-rating {
+    direction: rtl;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    color: #ddd;
+    font-size: 40px;
+    padding: 0 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.star-rating label:hover,
+.star-rating label:hover~label,
+.star-rating input:checked~label {
+    color: #ffc107;
+}
