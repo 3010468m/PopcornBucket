@@ -42,9 +42,9 @@
         <div class="row justify-content-start">
             <div class="col-4">
             {% if film.poster %}
-                <img class="poster-img" src="{{ film.poster.url }}" alt="{{ film.title }}">
+                <img class="fl-poster-img" src="{{ film.poster.url }}" alt="{{ film.title }}">
             {% else %}
-                <img class="poster-img" src="{% static 'images/NoPosterAvailable.jpg' %}" alt="{{ film.title }}">
+                <img class="fl-poster-img" src="{% static 'images/NoPosterAvailable.jpg' %}" alt="{{ film.title }}">
             {% endif %}
             </div>
             <div class="col-4">
@@ -70,7 +70,7 @@
                 <!-- PopcornBucket rating -->
                 <h5>
                     <i class="bi bi-star-fill" style="color:gold;"></i>
-                    PopcornBucket rating:
+                    Popcorn Bucket rating:
                     {% if film.avg_rating %}
                         {{ film.avg_rating|floatformat:1 }}/5
                     {% else %}
@@ -92,13 +92,4 @@
 {% else %}
         <p>No films found.</p>
 {% endif %}
-
-<style>
-    .poster-img {
-            border-radius: 0;
-            width: 180px;
-            margin-bottom: 25px;
-        }
-</style>
-
 {% endblock %}

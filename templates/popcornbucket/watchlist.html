@@ -11,9 +11,9 @@
         <div class="row justify-content-start mb-4">
             <div class="col-2 col-md-2">
                 {% if film.poster %}
-                    <img class="poster-img" src="{{ film.poster.url }}" alt="{{ film.title }}">
+                    <img class="wl-poster-img" src="{{ film.poster.url }}" alt="{{ film.title }}">
                 {% else %}
-                    <img class="poster-img" src="{% static 'images/NoPosterAvailable.jpg' %}" alt="{{ film.title }}">
+                    <img class="wl-poster-img" src="{% static 'images/NoPosterAvailable.jpg' %}" alt="{{ film.title }}">
                 {% endif %}
             </div>
             
@@ -39,11 +39,7 @@
 {% endif %}
 
 <style>
-    .poster-img {
-            border-radius: 0;
-            width: 200px;
-            margin-bottom: 25px;
-        }
+    
 </style>
 
 {% endblock %}
