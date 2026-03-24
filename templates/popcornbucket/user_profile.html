@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<div class="container py-4" style="max-width: 1050px;">
+<div class="container py-4 profile-container">
 
     <!-- PROFILE HEADER -->
     <div class="mb-4">
@@ -66,11 +66,10 @@
                         {% else %}
                             <img src="{% static 'images/NoPosterAvailable.jpg' %}" class="watch-img" alt="">
                         {% endif %}
-                        
+
                         <h6>
-                            <a href="{% url 'film_detail' film.id %}" 
-                            style="color:black;text-decoration:none;">
-                            {{ film.title }}
+                            <a href="{% url 'film_detail' film.id %}" class="film-link">
+                                {{ film.title }}
                             </a>
                         </h6>
                     </div>
@@ -111,10 +110,12 @@
                         </div>
 
                         <div class="flex-grow-1">
-                            <div class="review-username mb-1">{{ review.user.username }} - <a href="{% url 'film_detail' review.film.id %}" 
-                            style="color:black;text-decoration:none;">
-                            {{ review.film }}
-                            </a></div>
+                            <div class="review-username mb-1">
+                                {{ review.user.username }} -
+                                <a href="{% url 'film_detail' review.film.id %}" class="film-link">
+                                    {{ review.film }}
+                                </a>
+                            </div>
                             <div class="review-text mb-2">{{ review.review_text }}</div>
 
                             <div class="review-votes d-flex gap-4">

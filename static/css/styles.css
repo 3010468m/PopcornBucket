@@ -1,14 +1,97 @@
-body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-header { background: #ce1b1b; color: white; padding: 20px; } 
-nav a { color: white; margin-right: 15px; text-decoration: none; }
-nav a:hover { text-decoration: underline; } */
-main { padding: 20px; }
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background: #ce1b1b;
+    color: white;
+    padding: 20px;
+}
+
+nav a {
+    color: white;
+    margin-right: 15px;
+    text-decoration: none;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+main {
+    padding: 20px;
+    margin-top: 80px; /* fixes navbar overlap */
+}
+
+.site-title {
+    color: white;
+    text-decoration: none;
+    font-size: 2.2rem;
+    font-weight: 600;
+}
+
+.site-title:hover,
+.site-title:focus,
+.site-title:active {
+    color: white;
+    text-decoration: none;
+    box-shadow: none;
+    outline: none;
+}
+
+.navbar-toggler {
+    padding: 0.6rem 0.8rem;
+}
+
+.navbar-toggler-icon {
+    width: 2rem;
+    height: 2rem;
+}
+
+.edit-profile-container {
+    max-width: 700px;
+}
+
+.login-container {
+    max-width: 720px;
+}
+
+.login-form {
+    max-width: 420px;
+}
+
+.signup-container {
+    max-width: 720px;
+}
+
+.signup-form {
+    max-width: 500px;
+}
+
+.profile-container {
+    max-width: 1050px;
+}
+
+.film-link {
+    color: black;
+    text-decoration: none;
+}
+
+.film-link:hover {
+    text-decoration: underline;
+}
+
+.review-film-poster {
+    width: 300px;
+}
 
 /* container: central */
-.container-basic{
-  max-width: 1050px;
-  margin-left: auto;
-  margin-right: auto;
+.container-basic {
+    max-width: 1050px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* write_review classes */
@@ -20,7 +103,7 @@ main { padding: 20px; }
 }
 
 .rating-card {
-  text-align: left;
+    text-align: left;
 }
 
 .star-rating input {
@@ -36,8 +119,8 @@ main { padding: 20px; }
 }
 
 .star-rating label:hover,
-.star-rating label:hover~label,
-.star-rating input:checked~label {
+.star-rating label:hover ~ label,
+.star-rating input:checked ~ label {
     color: #ffc107;
 }
 
@@ -55,11 +138,10 @@ main { padding: 20px; }
     margin-bottom: 25px;
 }
 
-
-/* user_profile classes */
+/* user_profile / edit_profile classes */
 .profile-box {
     border: 1px solid #bbb;
-    padding: 20px;
+    padding: 25px;
     background: #fff;
 }
 
@@ -115,6 +197,14 @@ main { padding: 20px; }
     color: #333;
 }
 
+.edit-img {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #bbb;
+}
+
 h2 {
     font-size: 1.8rem;
 }
@@ -123,15 +213,14 @@ h4 {
     font-size: 1.35rem;
 }
 
-/*signup classes */
-
+/* signup / login classes */
 .login-heading {
     font-size: 1.8rem;
     font-weight: 500;
 }
 
 .login-label {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     font-weight: 500;
     text-transform: lowercase;
 }
@@ -145,42 +234,6 @@ input {
     font-size: 1.05rem;
 }
 
-.register-btn {
-    background-color: #ead27a;
-    border: 1px solid #bbb;
-    border-radius: 0;
-    color: #111;
-    font-size: 1.5rem;
-}
-
-.register-btn:hover {
-    background-color: #e0c766;
-    color: #111;
-}
-
-.password-help {
-    font-size: 0.9rem;
-    color: #555;
-    padding-left: 18px;
-}
-
-.password-help li {
-    margin-bottom: 4px;
-}
-
-
-/* login classes */
-.login-heading {
-    font-size: 1.8rem;
-    font-weight: 500;
-}
-
-.login-label {
-    font-size: 1.5rem;
-    font-weight: 500;
-    text-transform: lowercase;
-}
-
 .login-input {
     border: 1px solid #999;
     border-radius: 0;
@@ -188,8 +241,16 @@ input {
     font-size: 1.1rem;
 }
 
-.login-btn,
 .register-btn {
+    background-color: #ead27a;
+    border: 1px solid #999;
+    border-radius: 0;
+    color: #111;
+    font-size: 1.7rem;
+    line-height: 1;
+}
+
+.login-btn {
     background-color: #ead27a;
     border: 1px solid #999;
     border-radius: 0;
@@ -207,6 +268,16 @@ input {
 .register-text {
     font-size: 1rem;
     color: #444;
+}
+
+.password-help {
+    font-size: 0.9rem;
+    color: #555;
+    padding-left: 18px;
+}
+
+.password-help li {
+    margin-bottom: 4px;
 }
 
 /* film_detail classes */
@@ -245,6 +316,14 @@ input {
     margin-right: 15px;
 }
 
+.rating-star {
+    color: gold;
+}
+
+.film-description {
+    font-size: 1.35rem;
+}
+
 @media (max-width: 500px) {
     .film_container {
         text-align: center;
@@ -258,20 +337,6 @@ input {
 }
 
 /* edit_profile classes */
-.profile-box {
-    border: 1px solid #bbb;
-    padding: 25px;
-    background: #fff;
-}
-
-.edit-img {
-    width: 140px;
-    height: 140px;
-    object-fit: cover;
-    border-radius: 8px;
-    border: 1px solid #bbb;
-}
-
 input[type="file"] {
     max-width: 300px;
     margin: 0 auto;
@@ -303,4 +368,3 @@ label {
     margin-top: -20px;
     margin-bottom: -20px;
 }
-
