@@ -138,46 +138,8 @@
             {% endif %}
     </div>
 </div>
-    <div class="container-basic">
+    <div class="container">
         <a href="{% url 'film_list' %}" class="link-secondary">Back to film list</a>
     </div>
-
-    <script>
-    document.querySelectorAll('.vote-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const reviewId = this.dataset.reviewId;
-            const voteType = this.dataset.vote;
-
-            fetch(`/review/${reviewId}/vote/`, {
-                method: "POST",
-                headers: {
-                    "X-CSRFToken": getCookie("csrftoken"),
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    vote_type: voteType
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById(`up-${reviewId}`).innerText = data.up_votes;
-                document.getElementById(`down-${reviewId}`).innerText = data.down_votes;
-            });
-        });
-    });
-
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== "") {
-            document.cookie.split(";").forEach(cookie => {
-                const trimmed = cookie.trim();
-                if (trimmed.startsWith(name + "=")) {
-                    cookieValue = decodeURIComponent(trimmed.substring(name.length + 1));
-                }
-            });
-        }
-        return cookieValue;
-    }
-    </script>
 
 {% endblock %}
