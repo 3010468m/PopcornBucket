@@ -43,7 +43,7 @@
                         <a href="{% url 'add_friend' profile_user.pk %}" class="btn btn-outline-secondary">Send Friend Request</a>
                     {% endif %}
                 {% else %}
-                    <a href="{% url 'edit_profile' %}" class="btn btn-outline-secondary">Edit Profile</a>
+                    <a href="{% url 'edit_profile' profile_user.pk %}" class="btn btn-outline-secondary">Edit Profile</a>
                 {% endif %}
             </div>
 
@@ -126,6 +126,25 @@
         {% endif %}
     </div>
 
+    <!-- FRIENDS -->
+    {% if profile_user == request.user %}
+        <div class="profile-box">
+            <h4 class="mb-3">My Friends</h4>
+
+            {% if friends %}
+                {% for friend in friends %}
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <a href="{% url 'user_profile' friend.pk %}" class="text-decoration-none">
+                            {{ friend.username }}
+                        </a>
+                        <a href="{% url 'remove_friend' friend.pk %}" class="btn btn-warning btn-sm">Unfriend</a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-muted">You have no friends added yet.</p>
+            {% endif %}
+        </div>
+    {% endif %}
 </div>
 
 <style>
