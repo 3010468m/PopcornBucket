@@ -27,7 +27,7 @@ SECRET_KEY = 'xsri&@cm+j*ivbdd1h7of)0bxnsc!qprf9jppct@ykzsucp1)f'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['SimiA.pythonanywhere.com']
+ALLOWED_HOSTS = ['PopcornBucket.pythonanywhere.com']
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
