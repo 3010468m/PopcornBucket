@@ -2,14 +2,14 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.db.models import F
 from django.http import JsonResponse
 import json
 from django.contrib.auth.models import User
 from .models import Film, Genre, Review, Watchlist, Friendship, UserProfile
-from .forms import ReviewForm, EditProfileForm
-
+from .forms import ReviewForm, EditProfileForm, UserUpdateForm
+from django.contrib.auth.forms import PasswordChangeForm
 
 # Create your views here.
 # This view is responsible for creating a base/main page
@@ -212,17 +212,42 @@ def user_profile(request, user_id):
 
 @login_required
 def edit_profile(request, user_id):
+    if request.user.id != user_id:
+        return redirect("user_profile", user_id=request.user.id)
+
     profile, created = UserProfile.objects.get_or_create(user=request.user)
 
     if request.method == 'POST':
-        form = EditProfileForm(request.POST, request.FILES, instance=profile)
-        if form.is_valid():
-            form.save()
-            return redirect("user_profile", user_id)
-    else:
-        form = EditProfileForm(instance=profile)
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        profile_form = EditProfileForm(request.POST, request.FILES, instance=profile)
+        password_form = PasswordChangeForm(request.user, request.POST)
 
-    return render(request, 'popcornbucket/edit_profile.html', {'form': form})
+        if 'save_profile' in request.POST:
+            if user_form.is_valid() and profile_form.is_valid():
+                user_form.save()
+                profile_form.save()
+                return redirect("user_profile", user_id=request.user.id)
+
+        elif 'change_password' in request.POST:
+            # keep profile forms populated even when password form is submitted
+            user_form = UserUpdateForm(instance=request.user)
+            profile_form = EditProfileForm(instance=profile)
+
+            if password_form.is_valid():
+                user = password_form.save()
+                update_session_auth_hash(request, user)
+                return redirect("user_profile", user_id=request.user.id)
+
+    else:
+        user_form = UserUpdateForm(instance=request.user)
+        profile_form = EditProfileForm(instance=profile)
+        password_form = PasswordChangeForm(request.user)
+
+    return render(request, 'popcornbucket/edit_profile.html', {
+        'user_form': user_form,
+        'profile_form': profile_form,
+        'password_form': password_form,
+    })
 
 def watchlist(request, user_id):
     watchlist_user = get_object_or_404(User, id=user_id)

@@ -88,11 +88,30 @@ class ViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "alice")
 
+    def test_edit_profile_requires_login(self):
+        response = self.client.get(reverse("edit_profile", args=[self.user.pk]))
+        self.assertEqual(response.status_code, 302)
+
+    def test_edit_profile_logged_in(self):
+        self.client.login(username="alice", password="testpass123")
+        response = self.client.get(reverse("edit_profile", args=[self.user.pk]))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Change Password")
+        self.assertContains(response, "Account Details")
+
 
 class ActionTests(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user(username="alice", password="testpass123")
-        self.other_user = User.objects.create_user(username="bob", password="testpass123")
+        self.user = User.objects.create_user(
+            username="alice",
+            password="testpass123",
+            email="alice@example.com"
+        )
+        self.other_user = User.objects.create_user(
+            username="bob",
+            password="testpass123",
+            email="bob@example.com"
+        )
 
         self.genre = Genre.objects.create(name="Sci-Fi")
         self.film = Film.objects.create(
@@ -101,6 +120,8 @@ class ActionTests(TestCase):
             description="Test",
             release_year=2010,
         )
+
+        self.profile, _ = UserProfile.objects.get_or_create(user=self.user)
 
     def test_login(self):
         response = self.client.post(
@@ -206,3 +227,81 @@ class ActionTests(TestCase):
                 review_text="Nice review"
             ).exists()
         )
+
+    def test_edit_profile_updates_user_fields(self):
+        self.client.login(username="alice", password="testpass123")
+
+        response = self.client.post(
+            reverse("edit_profile", args=[self.user.pk]),
+            {
+                "username": "alice_updated",
+                "email": "alice_new@example.com",
+                "first_name": "",
+                "last_name": "",
+                "date_of_birth": "1998-05-14",
+                "save_profile": "1",
+            }
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.username, "alice_updated")
+
+    def test_edit_profile_updates_date_of_birth(self):
+        self.client.login(username="alice", password="testpass123")
+
+        response = self.client.post(
+            reverse("edit_profile", args=[self.user.pk]),
+            {
+                "username": "alice",
+                "email": "alice@example.com",
+                "first_name": "",
+                "last_name": "",
+                "date_of_birth": "1999-01-01",
+                "save_profile": "1",
+            }
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.profile.refresh_from_db()
+        self.assertEqual(str(self.profile.date_of_birth), "1999-01-01")
+
+    def test_change_password(self):
+        self.client.login(username="alice", password="testpass123")
+
+        response = self.client.post(
+            reverse("edit_profile", args=[self.user.pk]),
+            {
+                "old_password": "testpass123",
+                "new_password1": "NewStrongPass123!",
+                "new_password2": "NewStrongPass123!",
+                "change_password": "1",
+            }
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.user.refresh_from_db()
+        self.assertTrue(self.user.check_password("NewStrongPass123!"))
+
+    def test_user_cannot_edit_another_profile(self):
+        self.client.login(username="alice", password="testpass123")
+
+        response = self.client.get(reverse("edit_profile", args=[self.other_user.pk]))
+        self.assertEqual(response.status_code, 302)
+
+    def test_change_password_with_wrong_old_password_fails(self):
+        self.client.login(username="alice", password="testpass123")
+
+        response = self.client.post(
+            reverse("edit_profile", args=[self.user.pk]),
+            {
+                "old_password": "wrongpassword",
+                "new_password1": "NewStrongPass123!",
+                "new_password2": "NewStrongPass123!",
+                "change_password": "1",
+            }
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.user.refresh_from_db()
+        self.assertTrue(self.user.check_password("testpass123"))
