@@ -38,11 +38,15 @@ def film_list(request):
         films = films.order_by('-release_year')
     elif sort == 'oldest':
         films = films.order_by('release_year')
+    elif sort == 'most_popular':
+        films = films.order_by('-imdb_rating')
 
     context = {
         'films': films,
         'genres': genres,
-        'query':query,
+        'query': query,
+        'selected_sort': sort,
+        'selected_genre': genre_id,
     }
     return render(request, 'popcornbucket/film_list.html', context)
 
